@@ -48,3 +48,9 @@ variable "private_db_subnet_cidrs" {
   type        = list(string)
   default     = ["10.0.5.0/24", "10.0.6.0/24"]
 }
+
+variable "app_port" {
+  description = "Port on which the application listens"
+  type        = number
+  default     = 4000
+}

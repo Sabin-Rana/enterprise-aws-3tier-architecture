@@ -18,3 +18,13 @@ module "vpc" {
   private_app_subnet_cidrs = var.private_app_subnet_cidrs
   private_db_subnet_cidrs  = var.private_db_subnet_cidrs
 }
+
+# Security Groups Module - Creates layered security groups for 3-tier architecture
+module "security" {
+  source = "../../modules/security"
+
+  vpc_id      = module.vpc.vpc_id
+  project_name = var.project_name
+  common_tags = local.common_tags
+  app_port    = var.app_port
+}
