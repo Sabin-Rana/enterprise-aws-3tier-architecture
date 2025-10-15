@@ -17,3 +17,12 @@ resource "aws_db_subnet_group" "main" {
 #   # Multi-AZ deployment for high availability
 #   # Backup and maintenance configurations
 # }
+
+# Database Security Group Integration
+# The database security group ID will be passed from the security module
+# to ensure proper network isolation and access controls
+
+# Next Steps:
+# - Uncomment and configure the RDS PostgreSQL resource
+# - Add required variables for security group integration
+# - Execute rapid deployment plan with cost control measures
