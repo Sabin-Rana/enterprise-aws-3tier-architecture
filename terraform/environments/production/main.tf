@@ -28,3 +28,21 @@ module "security" {
   common_tags = local.common_tags
   app_port    = var.app_port
 }
+
+# Database Tier - RDS PostgreSQL
+module "database" {
+  source = "../../modules/database"
+
+  project_name = var.project_name
+  common_tags  = local.common_tags
+
+  # Database Configuration
+  db_instance_class = var.db_instance_class
+  db_username       = var.db_username
+  db_password       = var.db_password
+  db_name           = var.db_name
+
+  # Network Configuration
+  private_db_subnet_ids = module.vpc.private_db_subnets
+  db_security_group_id  = module.security.db_tier_sg_id
+}
