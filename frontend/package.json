@@ -1,0 +1,42 @@
+{
+  "name": "enterprise-frontend",
+  "version": "1.0.0",
+  "description": "Enterprise Frontend for AWS 3-Tier Architecture",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/",
+    "build:prod": "npm run lint && npm test && npm run build"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "axios": "^1.5.0",
+    "styled-components": "^6.0.0",
+    "react-query": "^3.39.3",
+    "react-hook-form": "^7.45.4",
+    "framer-motion": "^10.16.0"
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.1",
+    "eslint": "^8.47.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "author": "Sabin Rana",
+  "license": "MIT"
+}
