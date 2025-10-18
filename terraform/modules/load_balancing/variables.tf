@@ -82,3 +82,21 @@ variable "health_check_path" {
   type        = string
   default     = "/health"
 }
+
+# ------------------------------------------------------------------------------
+# LISTENER CONFIGURATION VARIABLES
+# ------------------------------------------------------------------------------
+
+# Port that the load balancer listener accepts traffic on
+variable "listener_port" {
+  description = "Port that the load balancer listener accepts traffic on - 80 for HTTP, 443 for HTTPS"
+  type        = number
+  default     = 80
+}
+
+# Protocol for the load balancer listener
+variable "listener_protocol" {
+  description = "Protocol for the load balancer listener - HTTP or HTTPS"
+  type        = string
+  default     = "HTTP"
+}

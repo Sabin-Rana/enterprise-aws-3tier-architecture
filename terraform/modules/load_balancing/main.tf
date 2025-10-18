@@ -70,3 +70,28 @@ resource "aws_lb_target_group" "app_tg" {
     Name = "${var.project_name}-app-tg"
   })
 }
+
+# ------------------------------------------------------------------------------
+# LISTENER
+# ------------------------------------------------------------------------------
+# Defines how the load balancer handles incoming traffic
+# Routes requests from the ALB to the target group
+resource "aws_lb_listener" "app_listener" {
+  # Attach listener to the Application Load Balancer
+  load_balancer_arn = aws_lb.app_alb.arn
+  
+  # Listener port and protocol - HTTP for internal, HTTPS for external
+  port     = var.listener_port
+  protocol = var.listener_protocol
+
+  # Default action - forward all traffic to the target group
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app_tg.arn
+  }
+
+  # Resource tagging for identification
+  tags = merge(var.common_tags, {
+    Name = "${var.project_name}-app-listener"
+  })
+}
