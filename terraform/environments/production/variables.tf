@@ -80,3 +80,47 @@ variable "db_name" {
   type        = string
   default     = "appdb"
 }
+
+# ------------------------------------------------------------------------------
+# COMPUTE TIER VARIABLES
+# ------------------------------------------------------------------------------
+
+# AMI ID for EC2 instances
+variable "ami_id" {
+  description = "AMI ID for EC2 instances - default is Amazon Linux 2"
+  type        = string
+  default     = "ami-0c02fb55956c7d316" # Amazon Linux 2 in us-east-1
+}
+
+# EC2 instance type for application tier
+variable "app_instance_type" {
+  description = "EC2 instance type for application tier"
+  type        = string
+  default     = "t2.micro"
+}
+
+# SSH key pair name (optional - SSM preferred)
+variable "key_name" {
+  description = "SSH key pair name for EC2 instances"
+  type        = string
+  default     = ""
+}
+
+# Auto Scaling configuration for application tier
+variable "app_min_size" {
+  description = "Minimum number of application instances"
+  type        = number
+  default     = 2
+}
+
+variable "app_max_size" {
+  description = "Maximum number of application instances"
+  type        = number
+  default     = 4
+}
+
+variable "app_desired_capacity" {
+  description = "Desired number of application instances"
+  type        = number
+  default     = 2
+}

@@ -46,3 +46,34 @@ module "database" {
   private_db_subnet_ids = module.vpc.private_db_subnets
   db_security_group_id  = module.security.db_tier_sg_id
 }
+
+# ------------------------------------------------------------------------------
+# COMPUTE MODULE - APPLICATION TIER
+# ------------------------------------------------------------------------------
+# Creates Auto Scaling Group and EC2 instances for the application tier
+module "app_compute" {
+  source = "../../modules/compute"
+
+  project_name = var.project_name
+  common_tags  = local.common_tags
+
+  # Instance configuration
+  ami_id        = var.ami_id
+  instance_type = var.app_instance_type
+  key_name      = var.key_name
+
+  # Security configuration
+  app_security_group_id    = module.app_security.app_security_group_id
+  iam_instance_profile_name = aws_iam_instance_profile.app_instance_profile.name
+
+  # Auto Scaling configuration
+  min_size         = var.app_min_size
+  max_size         = var.app_max_size
+  desired_capacity = var.app_desired_capacity
+
+  # Networking
+  private_subnet_ids = module.vpc.private_app_subnets
+
+  # Load balancer integration (will be added after creating ALB)
+  target_group_arns = [] # To be updated after ALB creation
+}
