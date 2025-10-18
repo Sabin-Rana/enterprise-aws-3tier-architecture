@@ -125,13 +125,4 @@ variable "app_desired_capacity" {
   default     = 2
 }
 
-# ------------------------------------------------------------------------------
-# LOAD BALANCING VARIABLES
-# ------------------------------------------------------------------------------
 
-# Application port for the backend API
-variable "app_port" {
-  description = "Application port for the backend API"
-  type        = number
-  default     = 4000
-}

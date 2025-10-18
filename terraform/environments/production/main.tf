@@ -63,7 +63,7 @@ module "app_compute" {
   key_name      = var.key_name
 
   # Security configuration
-  app_security_group_id    = module.app_security.app_security_group_id
+  app_security_group_id    = module.app_security.app_tier_sg_id
   iam_instance_profile_name = aws_iam_instance_profile.app_instance_profile.name
 
   # Auto Scaling configuration
@@ -90,7 +90,7 @@ module "internal_alb" {
 
   # ALB Configuration - internal for application tier
   internal                   = true
-  alb_security_group_id      = module.app_security.alb_security_group_id
+  alb_security_group_id      = module.app_security.web_tier_sg_id
   subnet_ids                 = module.vpc.private_app_subnets
   enable_deletion_protection = false
 
@@ -103,4 +103,60 @@ module "internal_alb" {
   # Listener Configuration
   listener_port     = 80
   listener_protocol = "HTTP"
+}
+
+# ------------------------------------------------------------------------------
+# SECURITY MODULE - SECURITY GROUPS
+# ------------------------------------------------------------------------------
+# Creates security groups for all tiers of the architecture
+module "app_security" {
+  source = "../../modules/security"
+
+  project_name = var.project_name
+  common_tags  = local.common_tags
+
+  # VPC configuration
+  vpc_id = module.vpc.vpc_id
+
+  # Application port for security group rules
+  app_port = var.app_port
+}
+
+# ------------------------------------------------------------------------------
+# IAM INSTANCE PROFILE
+# ------------------------------------------------------------------------------
+# Enables EC2 instances to use SSM Session Manager for secure access
+resource "aws_iam_instance_profile" "app_instance_profile" {
+  name = "${var.project_name}-app-instance-profile"
+  role = aws_iam_role.app_instance_role.name
+
+  tags = merge(local.common_tags, {
+    Name = "${var.project_name}-app-instance-profile"
+  })
+}
+
+resource "aws_iam_role" "app_instance_role" {
+  name = "${var.project_name}-app-instance-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  tags = merge(local.common_tags, {
+    Name = "${var.project_name}-app-instance-role"
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_managed_instance" {
+  role       = aws_iam_role.app_instance_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
