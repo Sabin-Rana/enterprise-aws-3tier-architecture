@@ -28,32 +28,17 @@ output "alb_zone_id" {
 }
 
 # ------------------------------------------------------------------------------
-# TARGET GROUP CONFIGURATION VARIABLES
+# TARGET GROUP OUTPUTS
 # ------------------------------------------------------------------------------
 
-# Application port that the target group listens on
-variable "app_port" {
-  description = "Port that the application listens on - target group routes traffic to this port"
-  type        = number
-  default     = 4000
+# Target Group ARN - used by Auto Scaling Group to register instances
+output "target_group_arn" {
+  description = "ARN of the target group - used by Auto Scaling Group to register EC2 instances"
+  value       = aws_lb_target_group.app_tg.arn
 }
 
-# Application protocol (HTTP or HTTPS) for the target group
-variable "app_protocol" {
-  description = "Protocol for the target group - HTTP for internal, HTTPS for external with SSL"
-  type        = string
-  default     = "HTTP"
-}
-
-# VPC ID where the target group resources are located
-variable "vpc_id" {
-  description = "VPC ID where the target group resources are located - required for target group creation"
-  type        = string
-}
-
-# Health check path used to determine instance health
-variable "health_check_path" {
-  description = "Health check path for target group - endpoint used to determine instance health"
-  type        = string
-  default     = "/health"
+# Target Group Name - useful for monitoring and debugging
+output "target_group_name" {
+  description = "Name of the target group - useful for monitoring and AWS Console identification"
+  value       = aws_lb_target_group.app_tg.name
 }
