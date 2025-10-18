@@ -75,7 +75,7 @@ module "app_compute" {
   private_subnet_ids = module.vpc.private_app_subnets
 
   # Load balancer integration (will be added after creating ALB)
-  target_group_arns = [] # To be updated after ALB creation
+  target_group_arns = [module.internal_alb.target_group_arn]
 }
 
 # ------------------------------------------------------------------------------
