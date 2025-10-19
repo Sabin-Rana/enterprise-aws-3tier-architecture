@@ -1,37 +1,41 @@
+# ==============================================================================
+# SECURITY SCANNING WORKFLOW - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This workflow performs comprehensive security scanning across the entire project
+# Includes infrastructure, application, code, and container security validation
+# ==============================================================================
+
 name: Security Scanning
-# This workflow performs comprehensive security scanning across our entire project
-# Runs on every PR and push to catch security issues early
 
 on:
-  pull_request:                          # Scan all pull requests
+  pull_request:
   push:
-    branches: [ main ]                   # Scan direct pushes to main
+    branches: [ main ]
   schedule:
-    - cron: '0 6 * * 1'                  # Weekly scan every Monday at 6 AM UTC
+    - cron: '0 6 * * 1'
 
 env:
   NODE_VERSION: '18'
   PYTHON_VERSION: '3.9'
 
 jobs:
-  # Job 1: Terraform Security Scanning
+  # Terraform infrastructure security scanning
   terraform-security:
     name: Terraform Security Scan
     runs-on: ubuntu-latest
     
     steps:
-    # Step 1: Checkout repository code
+    # Checkout repository code
     - name: Checkout code
       uses: actions/checkout@v3
       
-    # Step 2: Terraform security scanning with tfsec
+    # Terraform security scanning with tfsec
     - name: TFSec Security Scan
       uses: aquasecurity/tfsec-action@v1.0.0
       with:
-        directory: terraform/             # Scan all Terraform files
-        # tfsec checks for security misconfigurations in infrastructure code
+        directory: terraform/
         
-    # Step 3: Terraform linting with tflint
+    # Terraform linting with tflint
     - name: TFLint Analysis
       uses: terraform-linters/setup-tflint@v3
       with:
@@ -40,19 +44,20 @@ jobs:
     - name: Run TFLint
       run: |
         cd terraform
-        tflint --init                    # Initialize tflint plugins
-        tflint --recursive               # Recursively scan all .tf files
-      # TFLint checks for best practices and potential issues
+        tflint --init
+        tflint --recursive
 
-  # Job 2: Backend Application Security
+  # Backend application security scanning
   backend-security:
     name: Backend Security Scan
     runs-on: ubuntu-latest
     
     steps:
+    # Checkout repository code
     - name: Checkout code
       uses: actions/checkout@v3
       
+    # Setup Node.js environment
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
@@ -60,39 +65,38 @@ jobs:
         cache: 'npm'
         cache-dependency-path: backend/package-lock.json
         
-    # Step 4: Install backend dependencies
+    # Install backend dependencies
     - name: Install dependencies
       run: |
         cd backend
         npm ci
         
-    # Step 5: NPM security audit
+    # NPM security audit for dependencies
     - name: NPM Security Audit
       run: |
         cd backend
         npm audit --audit-level high
-        # Checks for known vulnerabilities in dependencies
-        # Fails if high/critical vulnerabilities found
         
-    # Step 6: Snyk security scanning (if we had Snyk API key)
+    # Snyk security scanning for deeper analysis
     - name: Snyk Security Scan
       uses: snyk/actions/node@master
       env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Would need to set this in GitHub
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         args: --severity-threshold=high
-      # Snyk provides deeper dependency vulnerability analysis
-      continue-on-error: true                  # Don't fail if no Snyk token
+      continue-on-error: true
 
-  # Job 3: Frontend Application Security  
+  # Frontend application security scanning
   frontend-security:
     name: Frontend Security Scan
     runs-on: ubuntu-latest
     
     steps:
+    # Checkout repository code
     - name: Checkout code
       uses: actions/checkout@v3
       
+    # Setup Node.js environment
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
@@ -100,55 +104,51 @@ jobs:
         cache: 'npm'
         cache-dependency-path: frontend/package-lock.json
         
-    # Step 7: Install frontend dependencies
+    # Install frontend dependencies
     - name: Install dependencies
       run: |
         cd frontend
         npm ci
         
-    # Step 8: Frontend security audit
+    # Frontend dependency security audit
     - name: NPM Security Audit
       run: |
         cd frontend
         npm audit --audit-level high
-        # Checks React and frontend dependencies for vulnerabilities
         
-    # Step 9: Build security check
+    # Build security verification
     - name: Security Build Check
       run: |
         cd frontend
         npm run build
         echo "Build completed - no security issues in build process"
-      # Ensures the application can build without security-related errors
 
-  # Job 4: General Code Security
+  # General code security analysis
   code-security:
     name: Code Security Analysis
     runs-on: ubuntu-latest
     
     steps:
+    # Checkout repository code
     - name: Checkout code
       uses: actions/checkout@v3
       
-    # Step 10: Secret scanning with Gitleaks
+    # Secret scanning with Gitleaks
     - name: Secret Detection
       uses: gitleaks/gitleaks-action@v2
       with:
-        config-path: .gitleaks.toml      # Custom configuration file
-        redact: true                     # Redact secrets from logs
-      # Scans for accidentally committed secrets/API keys
+        config-path: .gitleaks.toml
+        redact: true
       
-    # Step 11: Dependency review
+    # Dependency review for security impact
     - name: Dependency Review
       uses: actions/dependency-review-action@v3
-      # Analyzes dependency changes in PRs for security impact
       
-    # Step 12: CodeQL static analysis
+    # CodeQL static analysis for vulnerabilities
     - name: CodeQL Analysis
       uses: github/codeql-action/init@v2
       with:
         languages: javascript, typescript
-        # GitHub's advanced static analysis for code vulnerabilities
         
     - name: Autobuild
       uses: github/codeql-action/autobuild@v2
@@ -156,30 +156,30 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
 
-  # Job 5: Container Security
+  # Container security scanning
   container-security:
     name: Container Security Scan
     runs-on: ubuntu-latest
     
     steps:
+    # Checkout repository code
     - name: Checkout code
       uses: actions/checkout@v3
       
-    # Step 13: Docker image security scanning
+    # Build Docker image for security scanning
     - name: Build Docker image
       run: |
         cd backend
         docker build -t backend-security-scan .
         echo "Docker image built for security scanning"
         
-    # Step 14: Trivy container security scan
+    # Trivy container vulnerability scanning
     - name: Trivy Security Scan
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: 'backend-security-scan'
         format: 'sarif'
         output: 'trivy-results.sarif'
-        # Trivy scans Docker images for vulnerabilities
         
     - name: Upload Trivy Scan Results
       uses: github/codeql-action/upload-sarif@v2
@@ -187,25 +187,23 @@ jobs:
       with:
         sarif_file: 'trivy-results.sarif'
 
-  # Job 6: Security Report Summary
+  # Security scan summary and reporting
   security-summary:
     name: Security Summary
     runs-on: ubuntu-latest
     needs: [terraform-security, backend-security, frontend-security, code-security, container-security]
-    # This job runs after all security scans complete
     
     steps:
-    # Step 15: Generate security summary
+    # Generate security scanning summary report
     - name: Security Scan Summary
       run: |
-        echo "🔒 SECURITY SCAN SUMMARY"
-        echo "========================="
-        echo "✅ Terraform Security: Completed"
-        echo "✅ Backend Security: Completed" 
-        echo "✅ Frontend Security: Completed"
-        echo "✅ Code Security: Completed"
-        echo "✅ Container Security: Completed"
+        echo "SECURITY SCAN SUMMARY"
+        echo "====================="
+        echo "Terraform Security: Completed"
+        echo "Backend Security: Completed" 
+        echo "Frontend Security: Completed"
+        echo "Code Security: Completed"
+        echo "Container Security: Completed"
         echo ""
-        echo "All security scans completed successfully!"
-        echo "Review individual job logs for detailed findings."
-      # Provides a clean summary of all security checks
+        echo "All security scans completed successfully"
+        echo "Review individual job logs for detailed findings"

@@ -1,4 +1,11 @@
-# Public Route Table - Routes internet traffic through Internet Gateway
+# ==============================================================================
+# VPC ROUTE TABLES - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This file defines route tables and associations for the VPC module
+# Route tables control traffic routing between subnets and external networks
+# ==============================================================================
+
+# Public Route Table with internet gateway route
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
@@ -16,7 +23,7 @@ resource "aws_route_table" "public" {
   )
 }
 
-# Associate Public Subnets with Public Route Table
+# Public subnet route table associations
 resource "aws_route_table_association" "public" {
   count = length(aws_subnet.public)
 
@@ -24,7 +31,7 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-# Private Route Table for Application Subnets
+# Private Application Route Tables (one per subnet)
 resource "aws_route_table" "private_app" {
   count = length(var.private_app_subnet_cidrs)
 
@@ -39,7 +46,7 @@ resource "aws_route_table" "private_app" {
   )
 }
 
-# Associate Private App Subnets with Private Route Tables
+# Private application subnet route table associations
 resource "aws_route_table_association" "private_app" {
   count = length(aws_subnet.private_app)
 
@@ -47,7 +54,7 @@ resource "aws_route_table_association" "private_app" {
   route_table_id = aws_route_table.private_app[count.index].id
 }
 
-# Private Route Table for Database Subnets
+# Private Database Route Tables (one per subnet)
 resource "aws_route_table" "private_db" {
   count = length(var.private_db_subnet_cidrs)
 
@@ -62,7 +69,7 @@ resource "aws_route_table" "private_db" {
   )
 }
 
-# Associate Private DB Subnets with Private Route Tables
+# Private database subnet route table associations
 resource "aws_route_table_association" "private_db" {
   count = length(aws_subnet.private_db)
 

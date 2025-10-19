@@ -1,102 +1,78 @@
 # ==============================================================================
-# LOAD BALANCING MODULE - INPUT VARIABLES
+# LOAD BALANCING MODULE VARIABLES - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This file defines input variables for the load balancing module configuration
+# Variables control load balancer type, target groups, and listener configuration
 # ==============================================================================
 
-# This file defines all input variables required by the load balancing module
-# These variables configure Application Load Balancers and target groups
-
-# ------------------------------------------------------------------------------
-# PROJECT & TAGGING VARIABLES
-# ------------------------------------------------------------------------------
-
-# Project identifier used for resource naming and tagging
+# Project Configuration
 variable "project_name" {
-  description = "Name of the project for resource naming and tagging"
+  description = "Project name for load balancer resource naming and tagging"
   type        = string
 }
 
-# Common tags applied to all resources for organization and cost tracking
 variable "common_tags" {
-  description = "Common tags to be applied to all resources in the module"
+  description = "Common tags applied to all load balancing resources"
   type        = map(string)
   default     = {}
 }
 
-# ------------------------------------------------------------------------------
-# LOAD BALANCER CONFIGURATION VARIABLES
-# ------------------------------------------------------------------------------
-
-# Determines if the ALB is internal (private) or external (public)
+# Load Balancer Configuration
 variable "internal" {
-  description = "Whether the ALB is internal (true) for private subnets or external (false) for public subnets"
+  description = "Whether the load balancer is internal or internet-facing"
   type        = bool
   default     = true
 }
 
-# Security group that controls traffic to and from the load balancer
 variable "alb_security_group_id" {
-  description = "Security group ID for the ALB - controls inbound/outbound traffic rules"
+  description = "Security group ID for load balancer network access"
   type        = string
 }
 
-# Subnets where the load balancer will be deployed - determines availability zones
 variable "subnet_ids" {
-  description = "List of subnet IDs for the ALB - ensures multi-AZ deployment for high availability"
+  description = "List of subnet IDs for load balancer deployment"
   type        = list(string)
 }
 
-# Prevents accidental deletion of the load balancer in production
 variable "enable_deletion_protection" {
-  description = "Enable deletion protection for the ALB - prevents accidental deletion in production"
+  description = "Enable deletion protection for load balancer"
   type        = bool
   default     = false
 }
 
-# ------------------------------------------------------------------------------
-# TARGET GROUP CONFIGURATION VARIABLES
-# ------------------------------------------------------------------------------
-
-# Application port that the target group listens on
+# Target Group Configuration
 variable "app_port" {
-  description = "Port that the application listens on - target group routes traffic to this port"
+  description = "Port number for target group application traffic"
   type        = number
   default     = 4000
 }
 
-# Application protocol (HTTP or HTTPS) for the target group
 variable "app_protocol" {
-  description = "Protocol for the target group - HTTP for internal, HTTPS for external with SSL"
+  description = "Protocol for target group application traffic"
   type        = string
   default     = "HTTP"
 }
 
-# VPC ID where the target group resources are located
 variable "vpc_id" {
-  description = "VPC ID where the target group resources are located - required for target group creation"
+  description = "VPC ID for target group deployment"
   type        = string
 }
 
-# Health check path used to determine instance health
 variable "health_check_path" {
-  description = "Health check path for target group - endpoint used to determine instance health"
+  description = "Health check path for target group instances"
   type        = string
   default     = "/health"
 }
 
-# ------------------------------------------------------------------------------
-# LISTENER CONFIGURATION VARIABLES
-# ------------------------------------------------------------------------------
-
-# Port that the load balancer listener accepts traffic on
+# Listener Configuration
 variable "listener_port" {
-  description = "Port that the load balancer listener accepts traffic on - 80 for HTTP, 443 for HTTPS"
+  description = "Port number for load balancer listener"
   type        = number
   default     = 80
 }
 
-# Protocol for the load balancer listener
 variable "listener_protocol" {
-  description = "Protocol for the load balancer listener - HTTP or HTTPS"
+  description = "Protocol for load balancer listener"
   type        = string
   default     = "HTTP"
 }

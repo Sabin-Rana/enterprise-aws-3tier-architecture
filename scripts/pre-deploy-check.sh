@@ -1,14 +1,19 @@
 #!/bin/bash
-# Pre-Deployment Safety Check
-# Run before ANY terraform apply
+# ==============================================================================
+# PRE-DEPLOYMENT SAFETY CHECK - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This script performs safety checks before infrastructure deployment
+# Verifies current resource state and requires manual deployment approval
+# Use before every terraform apply to prevent cost overruns
+# ==============================================================================
 
 echo "PRE-DEPLOYMENT SAFETY CHECK"
 echo "==========================="
 
-# Check current resource count
+# Check current AWS resource state
 ./quick-cost-check.sh
 
-# Check Terraform plan
+# Terraform plan verification
 echo ""
 echo "=== TERRAFORM PLAN CHECK ==="
 if [ -d "../terraform/environments/production" ]; then
@@ -20,6 +25,7 @@ else
     echo "Production environment not found"
 fi
 
+# Manual deployment approval
 echo ""
 echo "=== DEPLOYMENT APPROVAL ==="
 read -p "Do you want to proceed with deployment? (yes/no): " approval

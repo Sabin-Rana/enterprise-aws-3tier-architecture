@@ -1,30 +1,37 @@
-# Web Tier Security Group - Allows HTTP/HTTPS from internet and SSH from anywhere (for troubleshooting)
+# ==============================================================================
+# SECURITY MODULE - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This module creates layered security groups for the 3-tier architecture
+# Security groups control network traffic between web, app, and database tiers
+# ==============================================================================
+
+# Web Tier Security Group - Public facing instances
 resource "aws_security_group" "web_tier" {
   name        = "${var.project_name}-web-tier"
-  description = "Security group for web tier instances"
+  description = "Security group for web tier instances (public facing)"
   vpc_id      = var.vpc_id
 
-  # Allow HTTP from internet
+  # Allow HTTP traffic from internet
   ingress {
-    description = "HTTP from internet"
+    description = "HTTP access from internet"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow HTTPS from internet  
+  # Allow HTTPS traffic from internet
   ingress {
-    description = "HTTPS from internet"
+    description = "HTTPS access from internet"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # Allow SSH from anywhere (for troubleshooting - restrict in production)
+  # Allow SSH access for administration
   ingress {
-    description = "SSH access"
+    description = "SSH access for administration"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -33,7 +40,7 @@ resource "aws_security_group" "web_tier" {
 
   # Allow all outbound traffic
   egress {
-    description = "Allow all outbound"
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -46,24 +53,24 @@ resource "aws_security_group" "web_tier" {
   })
 }
 
-# Application Tier Security Group - Allows traffic only from Web Tier and internal ALB
+# Application Tier Security Group - Internal instances
 resource "aws_security_group" "app_tier" {
   name        = "${var.project_name}-app-tier"
-  description = "Security group for application tier instances"
+  description = "Security group for application tier instances (internal)"
   vpc_id      = var.vpc_id
 
-  # Allow application port from Web Tier Security Group
+  # Allow application traffic from web tier
   ingress {
-    description     = "Application port from Web Tier"
+    description     = "Application traffic from web tier"
     from_port       = var.app_port
     to_port         = var.app_port
     protocol        = "tcp"
     security_groups = [aws_security_group.web_tier.id]
   }
 
-  # Allow SSH from Web Tier (for troubleshooting)
+  # Allow SSH access from web tier
   ingress {
-    description     = "SSH from Web Tier"
+    description     = "SSH access from web tier"
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
@@ -72,7 +79,7 @@ resource "aws_security_group" "app_tier" {
 
   # Allow all outbound traffic
   egress {
-    description = "Allow all outbound"
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -85,15 +92,15 @@ resource "aws_security_group" "app_tier" {
   })
 }
 
-# Database Tier Security Group - Allows traffic only from Application Tier
+# Database Tier Security Group - Database instances
 resource "aws_security_group" "db_tier" {
   name        = "${var.project_name}-db-tier"
-  description = "Security group for database tier"
+  description = "Security group for database tier instances"
   vpc_id      = var.vpc_id
 
-  # Allow PostgreSQL from Application Tier Security Group only
+  # Allow PostgreSQL traffic from application tier
   ingress {
-    description     = "PostgreSQL from Application Tier"
+    description     = "PostgreSQL access from application tier"
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
@@ -102,7 +109,7 @@ resource "aws_security_group" "db_tier" {
 
   # Allow all outbound traffic
   egress {
-    description = "Allow all outbound"
+    description = "Allow all outbound traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

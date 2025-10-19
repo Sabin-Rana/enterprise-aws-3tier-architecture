@@ -1,7 +1,11 @@
-# monitoring/main.tf - CloudWatch Monitoring & Alerting Configuration
-# This module sets up comprehensive monitoring for our 3-tier architecture
+# ==============================================================================
+# MONITORING MODULE - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This module creates comprehensive monitoring and alerting for the 3-tier architecture
+# Includes CloudWatch dashboards, SNS alerts, and VPC flow logs for observability
+# ==============================================================================
 
-# CloudWatch Dashboard for 3-Tier Architecture Overview
+# CloudWatch Dashboard for 3-tier architecture overview
 resource "aws_cloudwatch_dashboard" "main" {
   dashboard_name = "${var.project_name}-dashboard"
 
@@ -93,7 +97,7 @@ resource "aws_cloudwatch_dashboard" "main" {
   })
 }
 
-# SNS Topic for alerts and notifications
+# SNS Topic for alert notifications
 resource "aws_sns_topic" "alerts" {
   name = "${var.project_name}-alerts"
 
@@ -102,7 +106,7 @@ resource "aws_sns_topic" "alerts" {
   })
 }
 
-# CloudWatch Alarm: High CPU Utilization (Web Tier)
+# CloudWatch Alarm: Web Tier High CPU
 resource "aws_cloudwatch_metric_alarm" "high_cpu_web" {
   alarm_name          = "${var.project_name}-high-cpu-web"
   comparison_operator = "GreaterThanThreshold"
@@ -112,7 +116,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_web" {
   period              = 300
   statistic           = "Average"
   threshold           = 80
-  alarm_description   = "Web Tier EC2 CPU utilization exceeded 80%"
+  alarm_description   = "Web tier EC2 CPU utilization exceeded 80%"
   alarm_actions       = [aws_sns_topic.alerts.arn]
 
   dimensions = {
@@ -124,7 +128,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_web" {
   })
 }
 
-# CloudWatch Alarm: High CPU Utilization (App Tier)
+# CloudWatch Alarm: App Tier High CPU
 resource "aws_cloudwatch_metric_alarm" "high_cpu_app" {
   alarm_name          = "${var.project_name}-high-cpu-app"
   comparison_operator = "GreaterThanThreshold"
@@ -134,7 +138,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_app" {
   period              = 300
   statistic           = "Average"
   threshold           = 80
-  alarm_description   = "App Tier EC2 CPU utilization exceeded 80%"
+  alarm_description   = "App tier EC2 CPU utilization exceeded 80%"
   alarm_actions       = [aws_sns_topic.alerts.arn]
 
   dimensions = {
@@ -202,17 +206,17 @@ resource "aws_flow_log" "vpc_flow_log" {
   })
 }
 
-# CloudWatch Log Group for VPC Flow Logs
+# CloudWatch Log Group for VPC flow logs
 resource "aws_cloudwatch_log_group" "vpc_flow_log" {
   name              = "/aws/vpc/flow-logs/${var.project_name}"
-  retention_in_days = 7  # Keep logs for 7 days for cost optimization
+  retention_in_days = 7
 
   tags = merge(var.common_tags, {
     Name = "${var.project_name}-flow-log-group"
   })
 }
 
-# IAM Role for VPC Flow Logs
+# IAM Role for VPC flow logs
 resource "aws_iam_role" "vpc_flow_log" {
   name = "${var.project_name}-vpc-flow-log-role"
 
@@ -234,7 +238,7 @@ resource "aws_iam_role" "vpc_flow_log" {
   })
 }
 
-# IAM Policy for VPC Flow Logs
+# IAM Policy for VPC flow logs
 resource "aws_iam_role_policy" "vpc_flow_log" {
   name = "${var.project_name}-vpc-flow-log-policy"
   role = aws_iam_role.vpc_flow_log.id

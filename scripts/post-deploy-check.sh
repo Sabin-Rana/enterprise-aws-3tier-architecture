@@ -1,6 +1,11 @@
 #!/bin/bash
-# Post-Deployment Verification
-# Run after EVERY terraform apply
+# ==============================================================================
+# POST-DEPLOYMENT VERIFICATION - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This script verifies successful infrastructure deployment
+# Checks resource health and provides cost control reminders
+# Use after every terraform apply to ensure deployment success
+# ==============================================================================
 
 echo "POST-DEPLOYMENT VERIFICATION"
 echo "============================"

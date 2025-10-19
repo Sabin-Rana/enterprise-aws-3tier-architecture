@@ -1,5 +1,11 @@
 #!/bin/bash
+# ==============================================================================
 # ENTERPRISE AWS 3-TIER - COST CHECKER
+# ==============================================================================
+# This script performs comprehensive AWS resource cost auditing
+# Provides detailed resource listing and budget status tracking
+# Use for weekly cost audits and deployment verification
+# ==============================================================================
 
 echo "ENTERPRISE 3-TIER COST CHECKER"
 echo "==============================="
@@ -7,7 +13,7 @@ echo "Project: enterprise-aws-3tier-architecture"
 echo "Date: $(date)"
 echo ""
 
-# Function to check resources
+# Function to check and display AWS resources
 check_resource() {
     local service=$1
     local command=$2
@@ -26,14 +32,14 @@ check_resource() {
     echo ""
 }
 
-# HIGH COST SERVICES
+# High cost services audit
 echo "=== HIGH COST SERVICES ==="
 check_resource "EC2" "ec2 describe-instances" 'Reservations[].Instances[?State.Name==`running`].{Instance:InstanceId, Type:InstanceType, State:State.Name}' "Running EC2 Instances"
 check_resource "RDS" "rds describe-db-instances" 'DBInstances[?DBInstanceStatus==`available`].{DB:DBInstanceIdentifier, Engine:Engine, Class:DBInstanceClass, Status:DBInstanceStatus}' "Running RDS Databases"
 check_resource "ALB" "elbv2 describe-load-balancers" 'LoadBalancers[].{LB:LoadBalancerName, Type:Type, State:State.Code}' "Load Balancers"
 check_resource "NAT" "ec2 describe-nat-gateways" 'NatGateways[?State==`available`].{NatGatewayId:NatGatewayId, State:State}' "NAT Gateways"
 
-# COST SUMMARY
+# Cost summary calculation
 echo "=== COST SUMMARY ==="
 ec2_count=$(aws ec2 describe-instances --query 'Reservations[].Instances[?State.Name==`running`].InstanceId' --output text 2>/dev/null | wc -w)
 rds_count=$(aws rds describe-db-instances --query 'length(DBInstances[?DBInstanceStatus==`available`])' --output text 2>/dev/null)
@@ -48,10 +54,11 @@ echo "Load Balancers: $alb_count"
 echo "NAT Gateways: $nat_count"
 echo ""
 
+# Cost status determination
 if [ $total_costly_resources -eq 0 ]; then
-    echo " COST STATUS: ALL CLEAN - No costly resources running"
+    echo "COST STATUS: ALL CLEAN - No costly resources running"
 else
-    echo " COST STATUS: WARNING - $total_costly_resources costly resources found"
+    echo "COST STATUS: WARNING - $total_costly_resources costly resources found"
     echo "ACTION REQUIRED: Run './scripts/safety-destroy.sh' to prevent cost overruns"
 fi
 

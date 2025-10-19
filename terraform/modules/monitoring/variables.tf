@@ -1,49 +1,61 @@
-# monitoring/variables.tf - Input variables for monitoring module
+# ==============================================================================
+# MONITORING MODULE VARIABLES - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This file defines input variables for the monitoring module configuration
+# Variables control CloudWatch dashboards, alarms, and observability settings
+# ==============================================================================
 
+# Project Configuration
 variable "project_name" {
-  description = "Name of the project for resource naming and tagging"
+  description = "Project name for monitoring resource naming and tagging"
   type        = string
 }
 
 variable "common_tags" {
-  description = "Common tags to apply to all monitoring resources"
+  description = "Common tags applied to all monitoring resources"
   type        = map(string)
   default     = {}
 }
 
+# AWS Region Configuration
 variable "aws_region" {
-  description = "AWS region where monitoring resources will be created"
+  description = "AWS region for monitoring resources and metrics"
   type        = string
   default     = "us-east-1"
 }
 
+# VPC Configuration
 variable "vpc_id" {
-  description = "ID of the VPC to monitor with flow logs"
+  description = "VPC ID for VPC flow logs monitoring"
   type        = string
 }
 
+# Auto Scaling Group Configuration
 variable "web_asg_name" {
-  description = "Name of the Web Tier Auto Scaling Group for CPU monitoring"
+  description = "Web tier auto scaling group name for CPU monitoring"
   type        = string
 }
 
 variable "app_asg_name" {
-  description = "Name of the Application Tier Auto Scaling Group for CPU monitoring"
+  description = "Application tier auto scaling group name for CPU monitoring"
   type        = string
 }
 
+# Load Balancer Configuration
 variable "external_alb_name" {
-  description = "Name of the External Application Load Balancer for health monitoring"
+  description = "External load balancer name for health monitoring"
   type        = string
 }
 
+# Database Configuration
 variable "db_instance_id" {
-  description = "ID of the RDS database instance for performance monitoring"
+  description = "RDS database instance identifier for performance monitoring"
   type        = string
 }
 
+# Internal Load Balancer Configuration
 variable "internal_alb_name" {
-  description = "Name of the Internal Application Load Balancer for health monitoring"
+  description = "Internal load balancer name for health monitoring"
   type        = string
-  default     = ""  # Optional since we might not always have internal ALB
+  default     = ""
 }

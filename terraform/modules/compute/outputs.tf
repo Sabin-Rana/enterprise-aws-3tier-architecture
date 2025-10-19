@@ -1,44 +1,33 @@
 # ==============================================================================
-# COMPUTE MODULE - OUTPUT VARIABLES
+# COMPUTE MODULE OUTPUTS - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This file defines output values for the compute module
+# Outputs provide launch template and auto scaling group information
 # ==============================================================================
 
-# This file defines output values that other modules can reference
-# Outputs expose important resource identifiers and attributes
-
-# ------------------------------------------------------------------------------
-# LAUNCH TEMPLATE OUTPUTS
-# ------------------------------------------------------------------------------
-
-# Launch Template ID - used by Auto Scaling Groups and other resources
+# Launch Template Outputs
 output "launch_template_id" {
-  description = "ID of the launch template - used for referencing in Auto Scaling Groups"
+  description = "ID of the application launch template"
   value       = aws_launch_template.app_launch_template.id
 }
 
-# Launch Template Name - useful for debugging and AWS Console identification
 output "launch_template_name" {
-  description = "Name of the launch template - useful for identification in AWS Console"
+  description = "Name of the application launch template"
   value       = aws_launch_template.app_launch_template.name
 }
 
-# Launch Template Latest Version - ensures Auto Scaling uses current configuration
 output "launch_template_latest_version" {
-  description = "Latest version of the launch template - ensures Auto Scaling uses current configuration"
+  description = "Latest version of the application launch template"
   value       = aws_launch_template.app_launch_template.latest_version
 }
 
-# ------------------------------------------------------------------------------
-# AUTO SCALING GROUP OUTPUTS
-# ------------------------------------------------------------------------------
-
-# Auto Scaling Group Name - useful for monitoring and management
+# Auto Scaling Group Outputs
 output "autoscaling_group_name" {
-  description = "Name of the Auto Scaling Group - used for monitoring and management"
+  description = "Name of the application auto scaling group"
   value       = aws_autoscaling_group.app_asg.name
 }
 
-# Auto Scaling Group ARN - unique identifier for IAM policies and integrations
 output "autoscaling_group_arn" {
-  description = "ARN of the Auto Scaling Group - used for IAM policies and integrations"
+  description = "ARN of the application auto scaling group"
   value       = aws_autoscaling_group.app_asg.arn
 }

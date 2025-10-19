@@ -1,32 +1,38 @@
-# VPC ID where security groups will be created
+# ==============================================================================
+# SECURITY MODULE VARIABLES - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This file defines input variables for the security module configuration
+# Variables control security group rules and network access policies
+# ==============================================================================
+
+# VPC Configuration
 variable "vpc_id" {
   description = "ID of the VPC where security groups will be created"
   type        = string
 }
 
-# Project name for resource naming and tagging
+# Project Configuration
 variable "project_name" {
-  description = "Name of the project for resource naming"
+  description = "Project name for security group naming and tagging"
   type        = string
 }
 
-# Common tags for all resources
 variable "common_tags" {
-  description = "Common tags to be applied to all resources"
+  description = "Common tags applied to all security group resources"
   type        = map(string)
   default     = {}
 }
 
-# Application port for app tier security group rules
+# Application Configuration
 variable "app_port" {
-  description = "Port on which the application listens"
+  description = "Port number for application traffic between tiers"
   type        = number
   default     = 4000
 }
 
-# List of allowed IPs for SSH access (for production hardening)
+# Security Configuration
 variable "allowed_ssh_ips" {
-  description = "List of IP addresses allowed to SSH into instances"
+  description = "List of IP addresses allowed for SSH access"
   type        = list(string)
-  default     = ["0.0.0.0/0"] # WARNING: In production, restrict this!
+  default     = ["0.0.0.0/0"]
 }

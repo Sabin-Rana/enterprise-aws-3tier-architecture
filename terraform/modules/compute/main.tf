@@ -1,88 +1,78 @@
 # ==============================================================================
-# COMPUTE MODULE - EC2 LAUNCH TEMPLATE & AUTO SCALING GROUP
+# COMPUTE MODULE - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This module creates EC2 launch templates and auto scaling groups
+# Provides scalable compute capacity for the application tier with health monitoring
 # ==============================================================================
 
-# This module creates the compute infrastructure for the application tier
-# including EC2 launch templates and Auto Scaling Groups for high availability
-
-# ------------------------------------------------------------------------------
-# EC2 LAUNCH TEMPLATE
-# ------------------------------------------------------------------------------
-# Defines the blueprint for EC2 instances in the application tier
-# Includes AMI, instance type, security groups, and user data configuration
+# EC2 Launch Template for application instances
 resource "aws_launch_template" "app_launch_template" {
-  # Unique name prefix for the launch template
   name_prefix = "${var.project_name}-app-"
   
-  # Instance configuration
-  image_id      = var.ami_id                    # Amazon Machine Image ID
-  instance_type = var.instance_type             # Instance size (t2.micro, etc.)
-  key_name      = var.key_name                  # SSH key pair for access
+  # Instance Configuration
+  image_id      = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
   
-  # Security configuration - attaches instances to application security group
+  # Security Configuration
   vpc_security_group_ids = [var.app_security_group_id]
   
-  # User data script for instance initialization (base64 encoded)
+  # User Data Configuration
   user_data = base64encode(var.user_data)
   
-  # IAM instance profile for EC2 instances (enables SSM Session Manager)
+  # IAM Configuration
   iam_instance_profile {
     name = var.iam_instance_profile_name
   }
   
-  # Tag specifications for instances created from this template
+  # Instance Tagging
   tag_specifications {
     resource_type = "instance"
     tags = merge(var.common_tags, {
-      Name = "${var.project_name}-app-instance"  # Instance name
-      Tier = "application"                       # Identifies application tier
+      Name = "${var.project_name}-app-instance"
+      Tier = "application"
     })
   }
 
-  # Tags for the launch template itself
+  # Launch Template Tagging
   tags = merge(var.common_tags, {
     Name = "${var.project_name}-app-launch-template"
   })
 }
 
-# ------------------------------------------------------------------------------
-# AUTO SCALING GROUP
-# ------------------------------------------------------------------------------
-# Manages the fleet of EC2 instances with automatic scaling based on demand
-# Ensures high availability across multiple availability zones
+# Auto Scaling Group for application tier
 resource "aws_autoscaling_group" "app_asg" {
-  # Unique name prefix for the Auto Scaling Group
   name_prefix = "${var.project_name}-app-asg-"
 
-  # Scaling configuration
-  min_size         = var.min_size          # Minimum number of instances
-  max_size         = var.max_size          # Maximum number of instances  
-  desired_capacity = var.desired_capacity  # Desired running instances
+  # Scaling Configuration
+  min_size         = var.min_size
+  max_size         = var.max_size
+  desired_capacity = var.desired_capacity
 
-  # Network configuration - instances launched in private subnets
+  # Network Configuration
   vpc_zone_identifier = var.private_subnet_ids
 
-  # Load balancer integration - registers instances with target groups
+  # Load Balancer Integration
   target_group_arns = var.target_group_arns
 
-  # Launch template reference - uses the template defined above
+  # Launch Template Configuration
   launch_template {
     id      = aws_launch_template.app_launch_template.id
-    version = "$Latest"  # Always use the latest version of the template
+    version = "$Latest"
   }
 
-  # Health check configuration
-  health_check_type         = "ELB"        # Use ELB health checks
-  health_check_grace_period = 300          # 5 minutes grace period
+  # Health Check Configuration
+  health_check_type         = "ELB"
+  health_check_grace_period = 300
 
-  # Instance tagging
+  # Instance Tagging
   tag {
     key                 = "Name"
     value               = "${var.project_name}-app-instance"
-    propagate_at_launch = true  # Tag applies to all instances in ASG
+    propagate_at_launch = true
   }
 
-  # Dynamic tagging for all common tags
+  # Dynamic Common Tagging
   dynamic "tag" {
     for_each = var.common_tags
     content {
@@ -92,9 +82,9 @@ resource "aws_autoscaling_group" "app_asg" {
     }
   }
 
-  # Lifecycle configuration
+  # Lifecycle Configuration
   lifecycle {
-    create_before_destroy = true    # Ensure new ASG before destroying old
-    ignore_changes        = [load_balancers, target_group_arns]  # Prevent drift
+    create_before_destroy = true
+    ignore_changes        = [load_balancers, target_group_arns]
   }
 }

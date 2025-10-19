@@ -1,4 +1,11 @@
-# Elastic IPs for NAT Gateways
+# ==============================================================================
+# VPC NAT GATEWAYS - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This file defines NAT gateways and routing for private subnets
+# NAT gateways enable private subnets to access the internet for updates
+# ==============================================================================
+
+# Elastic IP addresses for NAT gateways
 resource "aws_eip" "nat" {
   count = length(var.public_subnet_cidrs)
   domain = "vpc"
@@ -11,7 +18,7 @@ resource "aws_eip" "nat" {
   )
 }
 
-# NAT Gateways in Public Subnets
+# NAT gateways deployed in public subnets
 resource "aws_nat_gateway" "main" {
   count = length(var.public_subnet_cidrs)
 
@@ -28,7 +35,7 @@ resource "aws_nat_gateway" "main" {
   depends_on = [aws_internet_gateway.main]
 }
 
-# Add NAT Gateway routes to Private App Route Tables
+# NAT gateway routes for private application subnets
 resource "aws_route" "private_app_nat" {
   count = length(aws_route_table.private_app)
 
@@ -37,7 +44,7 @@ resource "aws_route" "private_app_nat" {
   nat_gateway_id         = aws_nat_gateway.main[count.index].id
 }
 
-# Add NAT Gateway routes to Private DB Route Tables (optional - for updates)
+# NAT gateway routes for private database subnets
 resource "aws_route" "private_db_nat" {
   count = length(aws_route_table.private_db)
 

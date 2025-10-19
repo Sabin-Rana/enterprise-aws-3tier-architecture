@@ -1,5 +1,14 @@
-# Main Terraform configuration for Enterprise AWS 3-Tier Architecture
+# ==============================================================================
+# MAIN TERRAFORM CONFIGURATION - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This file defines the core Terraform configuration including:
+# - Required providers and versions
+# - AWS provider configuration with default tags
+# - Data sources for availability zones
+# - Local values for common configurations
+# ==============================================================================
 
+# Terraform block defining required version and providers
 terraform {
   required_version = ">= 1.0"
 
@@ -9,11 +18,9 @@ terraform {
       version = "~> 5.0"
     }
   }
-
-  # Backend will be configured later for state management
 }
 
-# Configure AWS Provider
+# AWS Provider configuration with default tagging
 provider "aws" {
   region = var.aws_region
 
@@ -23,23 +30,27 @@ provider "aws" {
       Environment = var.environment
       ManagedBy   = "terraform"
       Owner       = var.owner
+      Component   = "infrastructure"
     }
   }
 }
 
-# Data sources for availability zones
+# Data source to fetch available AWS availability zones
 data "aws_availability_zones" "available" {
   state = "available"
 }
 
-# Local values for common configurations
+# Local values for reusable configurations across the project
 locals {
+  # Select first 2 availability zones for multi-AZ deployment
   azs = slice(data.aws_availability_zones.available.names, 0, 2)
   
+  # Common tags applied to all resources for cost tracking and management
   common_tags = {
     Project     = var.project_name
     Environment = var.environment
     ManagedBy   = "terraform"
     Owner       = var.owner
+    Component   = "infrastructure"
   }
 }

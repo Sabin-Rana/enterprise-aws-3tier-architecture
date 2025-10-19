@@ -1,5 +1,11 @@
-# Terraform Backend Configuration for State Management
+# ==============================================================================
+# TERRAFORM BACKEND CONFIGURATION - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# This file configures remote state storage using AWS S3 and DynamoDB for locking
+# Remote state enables team collaboration and state persistence across deployments
+# ==============================================================================
 
+# S3 Backend Configuration for Terraform State Management
 terraform {
   backend "s3" {
     bucket         = "enterprise-aws-3tier-tfstate"
@@ -10,7 +16,7 @@ terraform {
   }
 }
 
-# S3 Bucket for Terraform State
+# S3 Bucket for storing Terraform state files
 resource "aws_s3_bucket" "tf_state" {
   bucket = "enterprise-aws-3tier-tfstate"
 
@@ -20,18 +26,20 @@ resource "aws_s3_bucket" "tf_state" {
     Environment = var.environment
     ManagedBy   = "terraform"
     Owner       = var.owner
+    Component   = "state-management"
   }
 }
 
-# S3 Bucket Versioning
+# S3 Bucket Versioning to maintain state file history
 resource "aws_s3_bucket_versioning" "tf_state" {
   bucket = aws_s3_bucket.tf_state.id
+  
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-# S3 Bucket Server Side Encryption
+# S3 Bucket Server-Side Encryption for state file security
 resource "aws_s3_bucket_server_side_encryption_configuration" "tf_state" {
   bucket = aws_s3_bucket.tf_state.id
 
@@ -42,7 +50,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "tf_state" {
   }
 }
 
-# S3 Bucket Public Access Block
+# S3 Bucket Public Access Block to prevent public exposure
 resource "aws_s3_bucket_public_access_block" "tf_state" {
   bucket = aws_s3_bucket.tf_state.id
 
@@ -52,7 +60,7 @@ resource "aws_s3_bucket_public_access_block" "tf_state" {
   restrict_public_buckets = true
 }
 
-# DynamoDB Table for State Locking
+# DynamoDB Table for Terraform state locking and consistency
 resource "aws_dynamodb_table" "tf_state_lock" {
   name         = "enterprise-aws-3tier-tfstate-lock"
   billing_mode = "PAY_PER_REQUEST"
@@ -69,5 +77,6 @@ resource "aws_dynamodb_table" "tf_state_lock" {
     Environment = var.environment
     ManagedBy   = "terraform"
     Owner       = var.owner
+    Component   = "state-management"
   }
 }
