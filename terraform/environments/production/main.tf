@@ -173,13 +173,13 @@ module "monitoring" {
   vpc_id = module.vpc.vpc_id
 
   # Auto Scaling Groups for CPU monitoring
-  web_asg_name = module.compute.web_asg_name
-  app_asg_name = module.compute.app_asg_name
+  web_asg_name = module.app_compute.autoscaling_group_name
+  app_asg_name = module.app_compute.autoscaling_group_name
 
   # Load Balancers for health monitoring
-  external_alb_name = module.load_balancing.external_alb_name
-  internal_alb_name = module.load_balancing.internal_alb_name
+  external_alb_name = module.internal_alb.alb_dns_name
+  internal_alb_name = module.internal_alb.alb_dns_name
 
   # Database for performance monitoring
-  db_instance_id = module.database.db_instance_id
+  db_instance_id = module.database.rds_endpoint
 }

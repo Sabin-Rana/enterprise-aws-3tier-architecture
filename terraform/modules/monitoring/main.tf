@@ -91,10 +91,6 @@ resource "aws_cloudwatch_dashboard" "main" {
       }
     ]
   })
-
-  tags = merge(var.common_tags, {
-    Name = "${var.project_name}-cloudwatch-dashboard"
-  })
 }
 
 # SNS Topic for alerts and notifications

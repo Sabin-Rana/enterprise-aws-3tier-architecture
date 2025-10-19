@@ -1,10 +1,5 @@
 # monitoring/outputs.tf - Output values for monitoring module
 
-output "cloudwatch_dashboard_arn" {
-  description = "ARN of the CloudWatch dashboard for the 3-tier architecture"
-  value       = aws_cloudwatch_dashboard.main.arn
-}
-
 output "cloudwatch_dashboard_name" {
   description = "Name of the CloudWatch dashboard"
   value       = aws_cloudwatch_dashboard.main.dashboard_name
