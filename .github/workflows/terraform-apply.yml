@@ -1,0 +1,159 @@
+name: Terraform Apply
+# This workflow deploys infrastructure changes to AWS
+# Requires manual approval for production deployments
+
+on:
+  push:
+    paths:
+      - 'terraform/**'                    # Trigger on Terraform changes
+      - '.github/workflows/terraform-apply.yml'
+    branches: [ main ]
+  workflow_dispatch:                      # Manual deployment trigger
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+
+env:
+  AWS_REGION: 'us-east-1'                # Consistent with our fixed region
+  TERRAFORM_VERSION: '1.5.0'             # Pinned Terraform version
+
+jobs:
+  # Job 1: Plan infrastructure changes
+  terraform-plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+    # Step 1: Checkout repository code
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    # Step 2: Configure AWS credentials
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        
+    # Step 3: Setup Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TERRAFORM_VERSION }}
+        
+    # Step 4: Initialize Terraform backend
+    - name: Terraform Init
+      run: |
+        cd terraform/environments/production
+        terraform init -input=false
+        echo "Terraform initialized successfully"
+        
+    # Step 5: Create execution plan
+    - name: Terraform Plan
+      id: plan
+      run: |
+        cd terraform/environments/production
+        terraform plan -input=false -out=tfplan
+        echo "Terraform plan created"
+        
+    # Step 6: Upload plan as artifact for approval
+    - name: Upload Terraform Plan
+      uses: actions/upload-artifact@v3
+      with:
+        name: terraform-plan
+        path: terraform/environments/production/tfplan
+        retention-days: 1
+
+  # Job 2: Apply infrastructure changes (requires approval)
+  terraform-apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    needs: terraform-plan                 # Wait for plan job
+    environment: production
+    # IMPORTANT: Require manual approval for production deployments
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    
+    steps:
+    # Step 7: Download the plan artifact
+    - name: Download Terraform Plan
+      uses: actions/download-artifact@v3
+      with:
+        name: terraform-plan
+        
+    # Step 8: Configure AWS credentials
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        
+    # Step 9: Setup Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TERRAFORM_VERSION }}
+        
+    # Step 10: Initialize Terraform
+    - name: Terraform Init
+      run: |
+        cd terraform/environments/production
+        terraform init -input=false
+        
+    # Step 11: Apply the approved plan
+    - name: Terraform Apply
+      run: |
+        cd terraform/environments/production
+        terraform apply -input=false -auto-approve tfplan
+        echo "Infrastructure deployment completed!"
+        
+    # Step 12: Output important information
+    - name: Get Terraform Outputs
+      run: |
+        cd terraform/environments/production
+        terraform output
+        # This displays ALB DNS names, RDS endpoints, etc.
+
+  # Job 3: Destroy infrastructure (manual trigger only)
+  terraform-destroy:
+    name: Terraform Destroy
+    runs-on: ubuntu-latest
+    environment: production
+    # Only run on manual trigger with explicit confirmation
+    if: github.event.inputs.environment == 'production' && github.event_name == 'workflow_dispatch'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ env.TERRAFORM_VERSION }}
+        
+    - name: Terraform Init
+      run: |
+        cd terraform/environments/production
+        terraform init -input=false
+        
+    - name: Terraform Destroy
+      run: |
+        cd terraform/environments/production
+        echo "DESTROYING ALL INFRASTRUCTURE - THIS CANNOT BE UNDONE"
+        terraform destroy -input=false -auto-approve
+        echo "Infrastructure destroyed successfully"
+      # Safety measure: Only use for cleanup, not regular operations

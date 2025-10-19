@@ -1,0 +1,200 @@
+name: Backend Deployment
+# This workflow builds, tests, and deploys the Node.js backend API
+# Uses Docker containers and deploys to EC2 via SSM
+
+on:
+  push:
+    paths:
+      - 'backend/**'                    # Trigger when backend files change
+      - '.github/workflows/backend-deploy.yml'
+    branches: [ main ]
+  pull_request:
+    paths:
+      - 'backend/**'
+  workflow_dispatch:                     # Manual deployment trigger
+
+env:
+  NODE_VERSION: '18'                    # Consistent Node.js version
+  AWS_REGION: 'us-east-1'               # AWS deployment region
+
+jobs:
+  # Job 1: Build and test backend application
+  build-backend:
+    name: Build Backend API
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Checkout repository code
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    # Step 2: Setup Node.js environment
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+        
+    # Step 3: Install backend dependencies
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm ci                          # Clean install for reproducibility
+        
+    # Step 4: Run backend tests
+    - name: Run tests
+      run: |
+        cd backend
+        npm test                        # Execute test suite
+      # Fails build if tests don't pass
+      
+    # Step 5: Build Docker image for backend
+    - name: Build Docker image
+      run: |
+        cd backend
+        docker build -t backend-api:${{ github.sha }} .
+        echo "Docker image built successfully"
+      # Tags image with git commit SHA for unique versioning
+      
+    # Step 6: Save Docker image as artifact
+    - name: Save Docker image
+      uses: actions/upload-artifact@v3
+      with:
+        name: backend-docker-image
+        path: backend/
+        retention-days: 1
+
+  # Job 2: Security and code quality checks
+  security-scan:
+    name: Security & Code Quality
+    runs-on: ubuntu-latest
+    needs: build-backend                # Wait for successful build
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm ci
+        
+    # Step 7: Run security audit on dependencies
+    - name: Security audit
+      run: |
+        cd backend
+        npm audit --audit-level high
+        echo "Security audit completed"
+        
+    # Step 8: Lint code for quality standards
+    - name: Code linting
+      run: |
+        cd backend
+        npx eslint src/ --max-warnings=0
+        echo "Code linting completed"
+      # Ensures consistent code style across the team
+
+  # Job 3: Deploy to AWS EC2 instances
+  deploy-to-ec2:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    needs: [build-backend, security-scan]  # Wait for both jobs
+    environment: production
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+    # Step 9: Configure AWS credentials for deployment
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        
+    # Step 10: Get Auto Scaling Group instances
+    - name: Get EC2 instances
+      id: get-instances
+      run: |
+        # Query Auto Scaling Group for running instances
+        INSTANCES=$(aws autoscaling describe-auto-scaling-groups \
+          --auto-scaling-group-names ${{ secrets.APP_ASG_NAME }} \
+          --query "AutoScalingGroups[0].Instances[?HealthStatus=='Healthy'].InstanceId" \
+          --output text)
+        
+        echo "instance_ids=$INSTANCES" >> $GITHUB_OUTPUT
+        echo "Found instances: $INSTANCES"
+        
+    # Step 11: Deploy to each EC2 instance using SSM
+    - name: Deploy to instances
+      uses: aws-actions/aws-ssm-send-command@v1
+      with:
+        # Target all instances from our Auto Scaling Group
+        instance-ids: ${{ steps.get-instances.outputs.instance_ids }}
+        # SSM document name for commands
+        document-name: "AWS-RunShellScript"
+        # Commands to run on each instance
+        comment: "Deploy backend application"
+        parameters: |
+          commands:
+            - cd /opt/backend
+            - git pull origin main
+            - npm ci --only=production
+            - pm2 reload ecosystem.config.js --env production
+            - echo "Backend deployment completed"
+        # Timeout for command execution
+        timeout-seconds: 300
+        
+    # Step 12: Verify deployment health
+    - name: Health check
+      run: |
+        # Get ALB DNS name from Terraform outputs or secret
+        ALB_DNS=${{ secrets.ALB_DNS_NAME }}
+        
+        # Wait for health check endpoint to respond
+        for i in {1..10}; do
+          if curl -f http://$ALB_DNS/health; then
+            echo "Health check passed!"
+            exit 0
+          fi
+          echo "Health check attempt $i failed, retrying..."
+          sleep 30
+        done
+        echo "Health check failed after 10 attempts"
+        exit 1
+      # Ensures application is actually running after deployment
+
+  # Job 4: Run database migrations (if needed)
+  database-migrations:
+    name: Database Migrations
+    runs-on: ubuntu-latest
+    needs: build-backend
+    if: github.ref == 'refs/heads/main'  # Only run migrations on main branch
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm ci
+        
+    - name: Run database migrations
+      run: |
+        cd backend
+        # This would run any pending database migrations
+        # For now, just a placeholder since we auto-create tables
+        echo "Database migrations would run here"
+        # Example: npx sequelize db:migrate
+      # In production, you'd have proper migration scripts here
