@@ -160,3 +160,26 @@ resource "aws_iam_role_policy_attachment" "ssm_managed_instance" {
   role       = aws_iam_role.app_instance_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
+
+# Monitoring Module - Comprehensive observability for 3-tier architecture
+module "monitoring" {
+  source = "../../modules/monitoring"
+
+  project_name = var.project_name
+  common_tags  = local.common_tags
+  aws_region   = var.aws_region
+
+  # VPC for flow logs
+  vpc_id = module.vpc.vpc_id
+
+  # Auto Scaling Groups for CPU monitoring
+  web_asg_name = module.compute.web_asg_name
+  app_asg_name = module.compute.app_asg_name
+
+  # Load Balancers for health monitoring
+  external_alb_name = module.load_balancing.external_alb_name
+  internal_alb_name = module.load_balancing.internal_alb_name
+
+  # Database for performance monitoring
+  db_instance_id = module.database.db_instance_id
+}
