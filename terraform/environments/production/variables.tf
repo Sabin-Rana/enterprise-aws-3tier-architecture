@@ -28,7 +28,7 @@ variable "owner" {
 variable "aws_region" {
   description = "AWS region for production deployment"
   type        = string
-  default     = "us-east-1"
+  default     = "us-east-2"
 }
 
 # Network Configuration
