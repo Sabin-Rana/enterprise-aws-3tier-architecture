@@ -28,7 +28,7 @@ variable "owner" {
 variable "aws_region" {
   description = "AWS region for production deployment"
   type        = string
-  default     = "us-east-2"
+  default     = "us-east-1"
 }
 
 # Network Configuration
@@ -62,6 +62,12 @@ variable "app_port" {
   default     = 4000
 }
 
+variable "web_port" {
+  description = "Web port for production frontend service"
+  type        = number
+  default     = 80
+}
+
 # Database Configuration
 variable "db_instance_class" {
   description = "RDS instance class for production database"
@@ -92,11 +98,17 @@ variable "db_name" {
 variable "ami_id" {
   description = "AMI ID for production EC2 instances"
   type        = string
-  default     = "ami-0c02fb55956c7d316"
+  default     = "ami-0023921b4fcd5382b"
 }
 
 variable "app_instance_type" {
   description = "EC2 instance type for production application tier"
+  type        = string
+  default     = "t2.micro"
+}
+
+variable "web_instance_type" {
+  description = "EC2 instance type for production web tier"
   type        = string
   default     = "t2.micro"
 }
@@ -124,4 +136,29 @@ variable "app_desired_capacity" {
   description = "Desired instance count for production auto scaling group"
   type        = number
   default     = 2
+}
+
+variable "web_min_size" {
+  description = "Minimum number of instances in web tier auto scaling group"
+  type        = number
+  default     = 2
+}
+
+variable "web_max_size" {
+  description = "Maximum number of instances in web tier auto scaling group"
+  type        = number
+  default     = 4
+}
+
+variable "web_desired_capacity" {
+  description = "Desired number of instances in web tier auto scaling group"
+  type        = number
+  default     = 2
+}
+
+# Monitoring Configuration
+variable "alarm_email" {
+  description = "Email address for CloudWatch alarm notifications"
+  type        = string
+  default     = ""
 }

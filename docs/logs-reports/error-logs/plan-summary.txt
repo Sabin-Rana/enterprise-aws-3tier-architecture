@@ -1,0 +1,8 @@
+Plan: 8 to add, 0 to change, 0 to destroy.
+Plan Summary:
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + autoscaling_group_name    = (known after apply)
+  + deployment_summary        = (known after apply)
+  + rds_address               = (known after apply)

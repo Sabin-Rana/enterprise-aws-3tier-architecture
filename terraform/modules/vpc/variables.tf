@@ -18,6 +18,11 @@ variable "project_name" {
   type        = string
 }
 
+variable "environment" {
+  description = "Environment for resource naming and tagging"
+  type        = string
+}
+
 variable "common_tags" {
   description = "Common tags applied to all VPC resources"
   type        = map(string)

@@ -48,6 +48,11 @@ variable "project_name" {
   type        = string
 }
 
+variable "environment" {
+  description = "Environment for database resource naming and tagging"
+  type        = string
+}
+
 variable "common_tags" {
   description = "Common tags applied to all database resources"
   type        = map(string)

@@ -11,6 +11,16 @@ variable "project_name" {
   type        = string
 }
 
+variable "environment" {
+  description = "Environment for compute resource naming and tagging"
+  type        = string
+}
+
+variable "tier" {
+  description = "Tier name (web, app) for resource identification"
+  type        = string
+}
+
 variable "common_tags" {
   description = "Common tags applied to all compute resources"
   type        = map(string)
@@ -21,7 +31,7 @@ variable "common_tags" {
 variable "ami_id" {
   description = "AMI ID for EC2 instances (Amazon Linux 2)"
   type        = string
-  default     = "ami-0c02fb55956c7d316"
+  default     = "ami-0023921b4fcd5382b"
 }
 
 variable "instance_type" {
@@ -51,6 +61,7 @@ variable "user_data" {
 variable "iam_instance_profile_name" {
   description = "IAM instance profile name for SSM access"
   type        = string
+  default     = "AmazonSSMManagedInstanceCore"
 }
 
 # Auto Scaling Configuration

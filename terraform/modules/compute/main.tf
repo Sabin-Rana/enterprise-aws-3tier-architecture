@@ -6,8 +6,8 @@
 # ==============================================================================
 
 # EC2 Launch Template for application instances
-resource "aws_launch_template" "app_launch_template" {
-  name_prefix = "${var.project_name}-app-"
+resource "aws_launch_template" "main" {
+  name_prefix = "${var.project_name}-${var.tier}-"
   
   # Instance Configuration
   image_id      = var.ami_id
@@ -18,7 +18,7 @@ resource "aws_launch_template" "app_launch_template" {
   vpc_security_group_ids = [var.app_security_group_id]
   
   # User Data Configuration
-  user_data = base64encode(var.user_data)
+  user_data = var.user_data
   
   # IAM Configuration
   iam_instance_profile {
@@ -29,20 +29,20 @@ resource "aws_launch_template" "app_launch_template" {
   tag_specifications {
     resource_type = "instance"
     tags = merge(var.common_tags, {
-      Name = "${var.project_name}-app-instance"
-      Tier = "application"
+      Name = "${var.project_name}-${var.tier}-instance"
+      Tier = var.tier
     })
   }
 
   # Launch Template Tagging
   tags = merge(var.common_tags, {
-    Name = "${var.project_name}-app-launch-template"
+    Name = "${var.project_name}-${var.tier}-launch-template"
   })
 }
 
 # Auto Scaling Group for application tier
-resource "aws_autoscaling_group" "app_asg" {
-  name_prefix = "${var.project_name}-app-asg-"
+resource "aws_autoscaling_group" "main" {
+  name_prefix = "${var.project_name}-${var.tier}-asg-"
 
   # Scaling Configuration
   min_size         = var.min_size
@@ -57,7 +57,7 @@ resource "aws_autoscaling_group" "app_asg" {
 
   # Launch Template Configuration
   launch_template {
-    id      = aws_launch_template.app_launch_template.id
+    id      = aws_launch_template.main.id
     version = "$Latest"
   }
 
@@ -68,7 +68,7 @@ resource "aws_autoscaling_group" "app_asg" {
   # Instance Tagging
   tag {
     key                 = "Name"
-    value               = "${var.project_name}-app-instance"
+    value               = "${var.project_name}-${var.tier}-instance"
     propagate_at_launch = true
   }
 

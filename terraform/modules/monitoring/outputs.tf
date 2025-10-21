@@ -11,6 +11,11 @@ output "cloudwatch_dashboard_name" {
   value       = aws_cloudwatch_dashboard.main.dashboard_name
 }
 
+output "cloudwatch_dashboard_arn" {
+  description = "ARN of the CloudWatch dashboard"
+  value       = aws_cloudwatch_dashboard.main.dashboard_arn
+}
+
 # SNS Topic Outputs
 output "sns_topic_arn" {
   description = "ARN of the SNS topic for alert notifications"
@@ -20,17 +25,6 @@ output "sns_topic_arn" {
 output "sns_topic_name" {
   description = "Name of the SNS topic for alerts"
   value       = aws_sns_topic.alerts.name
-}
-
-# VPC Flow Log Outputs
-output "vpc_flow_log_id" {
-  description = "ID of the VPC flow log for network monitoring"
-  value       = aws_flow_log.vpc_flow_log.id
-}
-
-output "cloudwatch_log_group_arn" {
-  description = "ARN of the CloudWatch log group for flow logs"
-  value       = aws_cloudwatch_log_group.vpc_flow_log.arn
 }
 
 # CloudWatch Alarm Outputs
@@ -57,5 +51,5 @@ output "alb_5xx_errors_alarm_arn" {
 # Monitoring Status Output
 output "monitoring_setup_complete" {
   description = "Confirmation message for monitoring setup completion"
-  value       = "Monitoring module deployed with CloudWatch dashboard, SNS alerts, and VPC flow logs"
+  value       = "Monitoring module deployed with CloudWatch dashboard and SNS alerts"
 }

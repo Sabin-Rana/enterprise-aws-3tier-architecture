@@ -5,19 +5,12 @@
 # Variables control load balancer type, target groups, and listener configuration
 # ==============================================================================
 
-# Project Configuration
-variable "project_name" {
-  description = "Project name for load balancer resource naming and tagging"
+# Load Balancer Configuration
+variable "name" {
+  description = "Name of the load balancer"
   type        = string
 }
 
-variable "common_tags" {
-  description = "Common tags applied to all load balancing resources"
-  type        = map(string)
-  default     = {}
-}
-
-# Load Balancer Configuration
 variable "internal" {
   description = "Whether the load balancer is internal or internet-facing"
   type        = bool
@@ -75,4 +68,11 @@ variable "listener_protocol" {
   description = "Protocol for load balancer listener"
   type        = string
   default     = "HTTP"
+}
+
+# Tagging Configuration
+variable "tags" {
+  description = "Tags applied to all load balancing resources"
+  type        = map(string)
+  default     = {}
 }

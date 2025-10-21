@@ -101,7 +101,7 @@ resource "aws_cloudwatch_dashboard" "main" {
 resource "aws_sns_topic" "alerts" {
   name = "${var.project_name}-alerts"
 
-  tags = merge(var.common_tags, {
+  tags = merge(var.tags, {
     Name = "${var.project_name}-alerts-topic"
   })
 }
@@ -123,7 +123,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_web" {
     AutoScalingGroupName = var.web_asg_name
   }
 
-  tags = merge(var.common_tags, {
+  tags = merge(var.tags, {
     Name = "${var.project_name}-high-cpu-web-alarm"
   })
 }
@@ -145,7 +145,7 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_app" {
     AutoScalingGroupName = var.app_asg_name
   }
 
-  tags = merge(var.common_tags, {
+  tags = merge(var.tags, {
     Name = "${var.project_name}-high-cpu-app-alarm"
   })
 }
@@ -167,7 +167,7 @@ resource "aws_cloudwatch_metric_alarm" "db_high_cpu" {
     DBInstanceIdentifier = var.db_instance_id
   }
 
-  tags = merge(var.common_tags, {
+  tags = merge(var.tags, {
     Name = "${var.project_name}-db-high-cpu-alarm"
   })
 }
@@ -189,74 +189,7 @@ resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
     LoadBalancer = var.external_alb_name
   }
 
-  tags = merge(var.common_tags, {
+  tags = merge(var.tags, {
     Name = "${var.project_name}-alb-5xx-alarm"
-  })
-}
-
-# VPC Flow Logs for network traffic monitoring
-resource "aws_flow_log" "vpc_flow_log" {
-  iam_role_arn    = aws_iam_role.vpc_flow_log.arn
-  log_destination = aws_cloudwatch_log_group.vpc_flow_log.arn
-  traffic_type    = "ALL"
-  vpc_id          = var.vpc_id
-
-  tags = merge(var.common_tags, {
-    Name = "${var.project_name}-vpc-flow-log"
-  })
-}
-
-# CloudWatch Log Group for VPC flow logs
-resource "aws_cloudwatch_log_group" "vpc_flow_log" {
-  name              = "/aws/vpc/flow-logs/${var.project_name}"
-  retention_in_days = 7
-
-  tags = merge(var.common_tags, {
-    Name = "${var.project_name}-flow-log-group"
-  })
-}
-
-# IAM Role for VPC flow logs
-resource "aws_iam_role" "vpc_flow_log" {
-  name = "${var.project_name}-vpc-flow-log-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "vpc-flow-logs.amazonaws.com"
-        }
-      }
-    ]
-  })
-
-  tags = merge(var.common_tags, {
-    Name = "${var.project_name}-flow-log-role"
-  })
-}
-
-# IAM Policy for VPC flow logs
-resource "aws_iam_role_policy" "vpc_flow_log" {
-  name = "${var.project_name}-vpc-flow-log-policy"
-  role = aws_iam_role.vpc_flow_log.id
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents",
-          "logs:DescribeLogGroups",
-          "logs:DescribeLogStreams"
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      }
-    ]
   })
 }

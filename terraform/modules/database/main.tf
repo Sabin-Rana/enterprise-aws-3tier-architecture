@@ -21,7 +21,7 @@ resource "aws_db_instance" "postgresql" {
 
   # Database Engine Configuration
   engine               = "postgres"
-  engine_version       = "14.19"
+  engine_version       = "14.9"
   instance_class       = var.db_instance_class
   allocated_storage    = 20
   storage_type         = "gp2"

@@ -11,8 +11,13 @@ variable "project_name" {
   type        = string
 }
 
-variable "common_tags" {
-  description = "Common tags applied to all monitoring resources"
+variable "environment" {
+  description = "Environment for monitoring resource naming and tagging"
+  type        = string
+}
+
+variable "tags" {
+  description = "Tags applied to all monitoring resources"
   type        = map(string)
   default     = {}
 }
@@ -47,15 +52,21 @@ variable "external_alb_name" {
   type        = string
 }
 
+variable "internal_alb_name" {
+  description = "Internal load balancer name for health monitoring"
+  type        = string
+  default     = ""
+}
+
 # Database Configuration
 variable "db_instance_id" {
   description = "RDS database instance identifier for performance monitoring"
   type        = string
 }
 
-# Internal Load Balancer Configuration
-variable "internal_alb_name" {
-  description = "Internal load balancer name for health monitoring"
+# Alert Configuration
+variable "alarm_email" {
+  description = "Email address for CloudWatch alarm notifications"
   type        = string
   default     = ""
 }

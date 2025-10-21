@@ -8,26 +8,31 @@
 # Launch Template Outputs
 output "launch_template_id" {
   description = "ID of the application launch template"
-  value       = aws_launch_template.app_launch_template.id
+  value       = aws_launch_template.main.id
 }
 
 output "launch_template_name" {
   description = "Name of the application launch template"
-  value       = aws_launch_template.app_launch_template.name
+  value       = aws_launch_template.main.name
 }
 
 output "launch_template_latest_version" {
   description = "Latest version of the application launch template"
-  value       = aws_launch_template.app_launch_template.latest_version
+  value       = aws_launch_template.main.latest_version
 }
 
 # Auto Scaling Group Outputs
 output "autoscaling_group_name" {
   description = "Name of the application auto scaling group"
-  value       = aws_autoscaling_group.app_asg.name
+  value       = aws_autoscaling_group.main.name
 }
 
 output "autoscaling_group_arn" {
   description = "ARN of the application auto scaling group"
-  value       = aws_autoscaling_group.app_asg.arn
+  value       = aws_autoscaling_group.main.arn
+}
+
+output "autoscaling_group_id" {
+  description = "ID of the application auto scaling group"
+  value       = aws_autoscaling_group.main.id
 }

@@ -1,32 +1,33 @@
 # ==============================================================================
-# SECURITY MODULE OUTPUTS - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# SECURITY GROUP MODULE OUTPUTS - ENTERPRISE AWS 3-TIER ARCHITECTURE
 # ==============================================================================
-# This file defines output values for the security module
-# Outputs provide security group IDs for integration with other modules
+# This file defines output values for the security group module
+# Outputs provide security group information for integration with other modules
 # ==============================================================================
 
-# Individual Security Group Outputs
-output "web_tier_sg_id" {
-  description = "ID of the web tier security group"
-  value       = aws_security_group.web_tier.id
+# Security Group Outputs
+output "security_group_id" {
+  description = "ID of the security group"
+  value       = aws_security_group.main.id
 }
 
-output "app_tier_sg_id" {
-  description = "ID of the application tier security group"
-  value       = aws_security_group.app_tier.id
+output "security_group_arn" {
+  description = "ARN of the security group"
+  value       = aws_security_group.main.arn
 }
 
-output "db_tier_sg_id" {
-  description = "ID of the database tier security group"
-  value       = aws_security_group.db_tier.id
+output "security_group_name" {
+  description = "Name of the security group"
+  value       = aws_security_group.main.name
 }
 
-# Consolidated Security Group Output
-output "all_security_group_ids" {
-  description = "Map of all security group IDs for easy reference"
-  value = {
-    web = aws_security_group.web_tier.id
-    app = aws_security_group.app_tier.id
-    db  = aws_security_group.db_tier.id
-  }
+# Rule Outputs
+output "ingress_rule_ids" {
+  description = "List of ingress rule IDs"
+  value       = aws_security_group_rule.ingress[*].id
+}
+
+output "egress_rule_ids" {
+  description = "List of egress rule IDs"
+  value       = aws_security_group_rule.egress[*].id
 }

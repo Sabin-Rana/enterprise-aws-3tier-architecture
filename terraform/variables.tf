@@ -72,7 +72,7 @@ variable "app_instance_type" {
 variable "key_name" {
   description = "SSH key pair name for EC2 instance access (optional)"
   type        = string
-  default     = null
+  default     = ""
 }
 
 # Auto Scaling Configuration
@@ -88,6 +88,12 @@ variable "web_max_size" {
   default     = 4
 }
 
+variable "web_desired_capacity" {
+  description = "Desired number of instances in web tier auto scaling group"
+  type        = number
+  default     = 2
+}
+
 variable "app_min_size" {
   description = "Minimum number of instances in application tier auto scaling group"
   type        = number
@@ -98,6 +104,12 @@ variable "app_max_size" {
   description = "Maximum number of instances in application tier auto scaling group"
   type        = number
   default     = 4
+}
+
+variable "app_desired_capacity" {
+  description = "Desired number of instances in application tier auto scaling group"
+  type        = number
+  default     = 2
 }
 
 # Database Configuration - RDS PostgreSQL
@@ -137,4 +149,11 @@ variable "web_port" {
   description = "Port number on which the web server listens"
   type        = number
   default     = 80
+}
+
+# Monitoring Configuration
+variable "alarm_email" {
+  description = "Email address for CloudWatch alarm notifications"
+  type        = string
+  default     = ""
 }

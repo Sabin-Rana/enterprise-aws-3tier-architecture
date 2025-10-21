@@ -6,23 +6,23 @@
 # ==============================================================================
 
 # Application Load Balancer
-resource "aws_lb" "app_alb" {
-  name               = "${var.project_name}-app-alb"
+resource "aws_lb" "main" {
+  name               = var.name
   internal           = var.internal
   load_balancer_type = "application"
   security_groups    = [var.alb_security_group_id]
   subnets           = var.subnet_ids
   enable_deletion_protection = var.enable_deletion_protection
 
-  tags = merge(var.common_tags, {
-    Name = "${var.project_name}-app-alb"
+  tags = merge(var.tags, {
+    Name = var.name
     Tier = var.internal ? "internal" : "external"
   })
 }
 
 # Target Group for application instances
-resource "aws_lb_target_group" "app_tg" {
-  name     = "${var.project_name}-app-tg"
+resource "aws_lb_target_group" "main" {
+  name     = "${var.name}-tg"
   port     = var.app_port
   protocol = var.app_protocol
   vpc_id   = var.vpc_id
@@ -40,24 +40,24 @@ resource "aws_lb_target_group" "app_tg" {
     matcher             = "200"
   }
 
-  tags = merge(var.common_tags, {
-    Name = "${var.project_name}-app-tg"
+  tags = merge(var.tags, {
+    Name = "${var.name}-tg"
   })
 }
 
 # Load Balancer Listener
-resource "aws_lb_listener" "app_listener" {
-  load_balancer_arn = aws_lb.app_alb.arn
+resource "aws_lb_listener" "main" {
+  load_balancer_arn = aws_lb.main.arn
   port              = var.listener_port
   protocol          = var.listener_protocol
 
   # Default Forward Action
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.app_tg.arn
+    target_group_arn = aws_lb_target_group.main.arn
   }
 
-  tags = merge(var.common_tags, {
-    Name = "${var.project_name}-app-listener"
+  tags = merge(var.tags, {
+    Name = "${var.name}-listener"
   })
 }

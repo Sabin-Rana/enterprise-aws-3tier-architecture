@@ -1,0 +1,410 @@
+module.monitoring.aws_iam_role.vpc_flow_log: Refreshing state... [id=enterprise-aws-3tier-vpc-flow-log-role]
+module.vpc.aws_eip.nat[0]: Refreshing state... [id=eipalloc-0a743c0fdcd6fe883]
+module.monitoring.aws_sns_topic.alerts: Refreshing state... [id=arn:aws:sns:us-east-2:660888593995:enterprise-aws-3tier-alerts]
+aws_iam_role.app_instance_role: Refreshing state... [id=enterprise-aws-3tier-app-instance-role]
+module.vpc.aws_eip.nat[1]: Refreshing state... [id=eipalloc-0d4762fd5f34af667]
+module.vpc.aws_vpc.main: Refreshing state... [id=vpc-0bb0a38894373baab]
+aws_iam_role_policy_attachment.ssm_managed_instance: Refreshing state... [id=enterprise-aws-3tier-app-instance-role/arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore]
+aws_iam_instance_profile.app_instance_profile: Refreshing state... [id=enterprise-aws-3tier-app-instance-profile]
+module.monitoring.aws_iam_role_policy.vpc_flow_log: Refreshing state... [id=enterprise-aws-3tier-vpc-flow-log-role:enterprise-aws-3tier-vpc-flow-log-policy]
+module.vpc.aws_route_table.private_app[1]: Refreshing state... [id=rtb-0118842a4ea4b1c48]
+module.vpc.aws_internet_gateway.main: Refreshing state... [id=igw-0d731c136ad1b0868]
+module.vpc.aws_route_table.private_app[0]: Refreshing state... [id=rtb-022a0a3f8a951d650]
+module.vpc.aws_subnet.public[1]: Refreshing state... [id=subnet-0936b0911532e6f01]
+module.vpc.aws_route_table.private_db[0]: Refreshing state... [id=rtb-0a9498b8e387b19a2]
+module.security.aws_security_group.web_tier: Refreshing state... [id=sg-091b980126fb58368]
+module.vpc.aws_route_table.private_db[1]: Refreshing state... [id=rtb-01d0d1efe3a555a0f]
+module.vpc.aws_subnet.public[0]: Refreshing state... [id=subnet-0e6165d652f6bcbe3]
+module.internal_alb.aws_lb_target_group.app_tg: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-2:660888593995:targetgroup/enterprise-aws-3tier-app-tg/9e39b099ec26d3a2]
+module.vpc.aws_subnet.private_db[0]: Refreshing state... [id=subnet-029972211ec3d1193]
+module.vpc.aws_subnet.private_db[1]: Refreshing state... [id=subnet-0a452bf1848bae78d]
+module.vpc.aws_subnet.private_app[0]: Refreshing state... [id=subnet-039980012a4976afa]
+module.vpc.aws_subnet.private_app[1]: Refreshing state... [id=subnet-01aa7772fba246fb0]
+module.vpc.aws_route_table.public: Refreshing state... [id=rtb-0367fad3bd1e6db6e]
+module.security.aws_security_group.app_tier: Refreshing state... [id=sg-097313ae8b558242a]
+module.vpc.aws_nat_gateway.main[0]: Refreshing state... [id=nat-02afdb18d612ae733]
+module.vpc.aws_nat_gateway.main[1]: Refreshing state... [id=nat-0df76f2b731c66e46]
+module.vpc.aws_route_table_association.public[0]: Refreshing state... [id=rtbassoc-0cdea8a0e41d7730a]
+module.vpc.aws_route_table_association.public[1]: Refreshing state... [id=rtbassoc-0937c1873da095ba9]
+module.vpc.aws_route_table_association.private_db[0]: Refreshing state... [id=rtbassoc-0b17c95273816ef89]
+module.vpc.aws_route_table_association.private_db[1]: Refreshing state... [id=rtbassoc-0c33e4121430d8c49]
+module.database.aws_db_subnet_group.main: Refreshing state... [id=enterprise-aws-3tier-db-subnet-group]
+module.vpc.aws_route_table_association.private_app[1]: Refreshing state... [id=rtbassoc-0f7e10fc17ae89b19]
+module.security.aws_security_group.db_tier: Refreshing state... [id=sg-0d319013177896983]
+module.vpc.aws_route_table_association.private_app[0]: Refreshing state... [id=rtbassoc-0697709f056279a36]
+module.internal_alb.aws_lb.app_alb: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-2:660888593995:loadbalancer/app/enterprise-aws-3tier-app-alb/9e260ac5a4501b3a]
+module.vpc.aws_route.private_db_nat[1]: Refreshing state... [id=r-rtb-01d0d1efe3a555a0f1080289494]
+module.vpc.aws_route.private_db_nat[0]: Refreshing state... [id=r-rtb-0a9498b8e387b19a21080289494]
+module.app_compute.aws_launch_template.app_launch_template: Refreshing state... [id=lt-0da29dcdb4feb7501]
+module.vpc.aws_route.private_app_nat[0]: Refreshing state... [id=r-rtb-022a0a3f8a951d6501080289494]
+module.vpc.aws_route.private_app_nat[1]: Refreshing state... [id=r-rtb-0118842a4ea4b1c481080289494]
+module.monitoring.aws_cloudwatch_metric_alarm.alb_5xx_errors: Refreshing state... [id=enterprise-aws-3tier-alb-5xx-errors]
+module.internal_alb.aws_lb_listener.app_listener: Refreshing state... [id=arn:aws:elasticloadbalancing:us-east-2:660888593995:listener/app/enterprise-aws-3tier-app-alb/9e260ac5a4501b3a/6bee00c3e28b4f39]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.app_compute.aws_autoscaling_group.app_asg will be created
+  + resource "aws_autoscaling_group" "app_asg" {
+      + arn                              = (known after apply)
+      + availability_zones               = (known after apply)
+      + default_cooldown                 = (known after apply)
+      + desired_capacity                 = 2
+      + force_delete                     = false
+      + force_delete_warm_pool           = false
+      + health_check_grace_period        = 300
+      + health_check_type                = "ELB"
+      + id                               = (known after apply)
+      + ignore_failed_scaling_activities = false
+      + load_balancers                   = (known after apply)
+      + max_size                         = 4
+      + metrics_granularity              = "1Minute"
+      + min_size                         = 2
+      + name                             = (known after apply)
+      + name_prefix                      = "enterprise-aws-3tier-app-asg-"
+      + predicted_capacity               = (known after apply)
+      + protect_from_scale_in            = false
+      + region                           = "us-east-2"
+      + service_linked_role_arn          = (known after apply)
+      + target_group_arns                = [
+          + "arn:aws:elasticloadbalancing:us-east-2:660888593995:targetgroup/enterprise-aws-3tier-app-tg/9e39b099ec26d3a2",
+        ]
+      + vpc_zone_identifier              = [
+          + "subnet-01aa7772fba246fb0",
+          + "subnet-039980012a4976afa",
+        ]
+      + wait_for_capacity_timeout        = "10m"
+      + warm_pool_size                   = (known after apply)
+
+      + availability_zone_distribution (known after apply)
+
+      + capacity_reservation_specification (known after apply)
+
+      + launch_template {
+          + id      = "lt-0da29dcdb4feb7501"
+          + name    = (known after apply)
+          + version = "$Latest"
+        }
+
+      + mixed_instances_policy (known after apply)
+
+      + tag {
+          + key                 = "Component"
+          + propagate_at_launch = true
+          + value               = "production"
+        }
+      + tag {
+          + key                 = "Environment"
+          + propagate_at_launch = true
+          + value               = "production"
+        }
+      + tag {
+          + key                 = "ManagedBy"
+          + propagate_at_launch = true
+          + value               = "terraform"
+        }
+      + tag {
+          + key                 = "Name"
+          + propagate_at_launch = true
+          + value               = "enterprise-aws-3tier-app-instance"
+        }
+      + tag {
+          + key                 = "Owner"
+          + propagate_at_launch = true
+          + value               = "Sabin Rana"
+        }
+      + tag {
+          + key                 = "Project"
+          + propagate_at_launch = true
+          + value               = "enterprise-aws-3tier"
+        }
+
+      + traffic_source (known after apply)
+    }
+
+  # module.database.aws_db_instance.postgresql will be created
+  + resource "aws_db_instance" "postgresql" {
+      + address                               = (known after apply)
+      + allocated_storage                     = 20
+      + apply_immediately                     = false
+      + arn                                   = (known after apply)
+      + auto_minor_version_upgrade            = true
+      + availability_zone                     = (known after apply)
+      + backup_retention_period               = 7
+      + backup_target                         = (known after apply)
+      + backup_window                         = "03:00-04:00"
+      + ca_cert_identifier                    = (known after apply)
+      + character_set_name                    = (known after apply)
+      + copy_tags_to_snapshot                 = false
+      + database_insights_mode                = (known after apply)
+      + db_name                               = "appdb"
+      + db_subnet_group_name                  = "enterprise-aws-3tier-db-subnet-group"
+      + dedicated_log_volume                  = false
+      + delete_automated_backups              = true
+      + deletion_protection                   = false
+      + domain_fqdn                           = (known after apply)
+      + endpoint                              = (known after apply)
+      + engine                                = "postgres"
+      + engine_lifecycle_support              = (known after apply)
+      + engine_version                        = "14.19"
+      + engine_version_actual                 = (known after apply)
+      + hosted_zone_id                        = (known after apply)
+      + id                                    = (known after apply)
+      + identifier                            = "enterprise-aws-3tier-db"
+      + identifier_prefix                     = (known after apply)
+      + instance_class                        = "db.t3.micro"
+      + iops                                  = (known after apply)
+      + kms_key_id                            = (known after apply)
+      + latest_restorable_time                = (known after apply)
+      + license_model                         = (known after apply)
+      + listener_endpoint                     = (known after apply)
+      + maintenance_window                    = "sun:04:00-sun:05:00"
+      + master_user_secret                    = (known after apply)
+      + master_user_secret_kms_key_id         = (known after apply)
+      + max_allocated_storage                 = 50
+      + monitoring_interval                   = 60
+      + monitoring_role_arn                   = (known after apply)
+      + multi_az                              = true
+      + nchar_character_set_name              = (known after apply)
+      + network_type                          = (known after apply)
+      + option_group_name                     = (known after apply)
+      + parameter_group_name                  = (known after apply)
+      + password                              = (sensitive value)
+      + password_wo                           = (write-only attribute)
+      + performance_insights_enabled          = true
+      + performance_insights_kms_key_id       = (known after apply)
+      + performance_insights_retention_period = (known after apply)
+      + port                                  = 5432
+      + publicly_accessible                   = false
+      + region                                = "us-east-2"
+      + replica_mode                          = (known after apply)
+      + replicas                              = (known after apply)
+      + resource_id                           = (known after apply)
+      + skip_final_snapshot                   = true
+      + snapshot_identifier                   = (known after apply)
+      + status                                = (known after apply)
+      + storage_encrypted                     = true
+      + storage_throughput                    = (known after apply)
+      + storage_type                          = "gp2"
+      + tags                                  = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-rds-postgresql"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + tags_all                              = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-rds-postgresql"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + timezone                              = (known after apply)
+      + username                              = "admin"
+      + vpc_security_group_ids                = [
+          + "sg-0d319013177896983",
+        ]
+    }
+
+  # module.monitoring.aws_cloudwatch_dashboard.main will be created
+  + resource "aws_cloudwatch_dashboard" "main" {
+      + dashboard_arn  = (known after apply)
+      + dashboard_body = (known after apply)
+      + dashboard_name = "enterprise-aws-3tier-dashboard"
+      + id             = (known after apply)
+      + region         = "us-east-2"
+    }
+
+  # module.monitoring.aws_cloudwatch_log_group.vpc_flow_log will be created
+  + resource "aws_cloudwatch_log_group" "vpc_flow_log" {
+      + arn               = (known after apply)
+      + id                = (known after apply)
+      + log_group_class   = (known after apply)
+      + name              = "/aws/vpc/flow-logs/enterprise-aws-3tier"
+      + name_prefix       = (known after apply)
+      + region            = "us-east-2"
+      + retention_in_days = 7
+      + skip_destroy      = false
+      + tags              = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-flow-log-group"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + tags_all          = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-flow-log-group"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+    }
+
+  # module.monitoring.aws_cloudwatch_metric_alarm.db_high_cpu will be created
+  + resource "aws_cloudwatch_metric_alarm" "db_high_cpu" {
+      + actions_enabled                       = true
+      + alarm_actions                         = [
+          + "arn:aws:sns:us-east-2:660888593995:enterprise-aws-3tier-alerts",
+        ]
+      + alarm_description                     = "RDS CPU utilization exceeded 75%"
+      + alarm_name                            = "enterprise-aws-3tier-db-high-cpu"
+      + arn                                   = (known after apply)
+      + comparison_operator                   = "GreaterThanThreshold"
+      + dimensions                            = (known after apply)
+      + evaluate_low_sample_count_percentiles = (known after apply)
+      + evaluation_periods                    = 2
+      + id                                    = (known after apply)
+      + metric_name                           = "CPUUtilization"
+      + namespace                             = "AWS/RDS"
+      + period                                = 300
+      + region                                = "us-east-2"
+      + statistic                             = "Average"
+      + tags                                  = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-db-high-cpu-alarm"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + tags_all                              = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-db-high-cpu-alarm"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + threshold                             = 75
+      + treat_missing_data                    = "missing"
+    }
+
+  # module.monitoring.aws_cloudwatch_metric_alarm.high_cpu_app will be created
+  + resource "aws_cloudwatch_metric_alarm" "high_cpu_app" {
+      + actions_enabled                       = true
+      + alarm_actions                         = [
+          + "arn:aws:sns:us-east-2:660888593995:enterprise-aws-3tier-alerts",
+        ]
+      + alarm_description                     = "App tier EC2 CPU utilization exceeded 80%"
+      + alarm_name                            = "enterprise-aws-3tier-high-cpu-app"
+      + arn                                   = (known after apply)
+      + comparison_operator                   = "GreaterThanThreshold"
+      + dimensions                            = (known after apply)
+      + evaluate_low_sample_count_percentiles = (known after apply)
+      + evaluation_periods                    = 2
+      + id                                    = (known after apply)
+      + metric_name                           = "CPUUtilization"
+      + namespace                             = "AWS/EC2"
+      + period                                = 300
+      + region                                = "us-east-2"
+      + statistic                             = "Average"
+      + tags                                  = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-high-cpu-app-alarm"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + tags_all                              = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-high-cpu-app-alarm"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + threshold                             = 80
+      + treat_missing_data                    = "missing"
+    }
+
+  # module.monitoring.aws_cloudwatch_metric_alarm.high_cpu_web will be created
+  + resource "aws_cloudwatch_metric_alarm" "high_cpu_web" {
+      + actions_enabled                       = true
+      + alarm_actions                         = [
+          + "arn:aws:sns:us-east-2:660888593995:enterprise-aws-3tier-alerts",
+        ]
+      + alarm_description                     = "Web tier EC2 CPU utilization exceeded 80%"
+      + alarm_name                            = "enterprise-aws-3tier-high-cpu-web"
+      + arn                                   = (known after apply)
+      + comparison_operator                   = "GreaterThanThreshold"
+      + dimensions                            = (known after apply)
+      + evaluate_low_sample_count_percentiles = (known after apply)
+      + evaluation_periods                    = 2
+      + id                                    = (known after apply)
+      + metric_name                           = "CPUUtilization"
+      + namespace                             = "AWS/EC2"
+      + period                                = 300
+      + region                                = "us-east-2"
+      + statistic                             = "Average"
+      + tags                                  = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-high-cpu-web-alarm"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + tags_all                              = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-high-cpu-web-alarm"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + threshold                             = 80
+      + treat_missing_data                    = "missing"
+    }
+
+  # module.monitoring.aws_flow_log.vpc_flow_log will be created
+  + resource "aws_flow_log" "vpc_flow_log" {
+      + arn                      = (known after apply)
+      + iam_role_arn             = "arn:aws:iam::660888593995:role/enterprise-aws-3tier-vpc-flow-log-role"
+      + id                       = (known after apply)
+      + log_destination          = (known after apply)
+      + log_destination_type     = "cloud-watch-logs"
+      + log_format               = (known after apply)
+      + max_aggregation_interval = 600
+      + region                   = "us-east-2"
+      + tags                     = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-vpc-flow-log"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + tags_all                 = {
+          + "Component"   = "production"
+          + "Environment" = "production"
+          + "ManagedBy"   = "terraform"
+          + "Name"        = "enterprise-aws-3tier-vpc-flow-log"
+          + "Owner"       = "Sabin Rana"
+          + "Project"     = "enterprise-aws-3tier"
+        }
+      + traffic_type             = "ALL"
+      + vpc_id                   = "vpc-0bb0a38894373baab"
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + autoscaling_group_name    = (known after apply)
+  + deployment_summary        = (known after apply)
+  + rds_address               = (known after apply)
+  + rds_endpoint              = (known after apply)
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.

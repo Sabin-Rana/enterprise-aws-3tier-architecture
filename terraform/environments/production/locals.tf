@@ -7,8 +7,8 @@
 
 # Local values for production environment configuration
 locals {
-  # Availability zones for multi-AZ deployment in us-east-1
-  azs = ["us-east-2a", "us-east-2b"]
+  # Availability zones for multi-AZ deployment
+  azs = data.aws_availability_zones.available.names
   
   # Common tags applied to all production resources
   common_tags = {

@@ -34,61 +34,50 @@ output "private_db_subnet_ids" {
 # Load Balancer Outputs
 output "external_alb_dns_name" {
   description = "DNS name of the external application load balancer"
-  value       = module.external_alb.lb_dns_name
+  value       = module.external_alb.alb_dns_name
 }
 
 output "internal_alb_dns_name" {
   description = "DNS name of the internal application load balancer"
-  value       = module.internal_alb.lb_dns_name
+  value       = module.internal_alb.alb_dns_name
 }
 
 # Auto Scaling Group Outputs
 output "web_asg_name" {
   description = "Name of the web tier auto scaling group"
-  value       = module.web_asg.autoscaling_group_name
+  value       = module.web_compute.autoscaling_group_name
 }
 
 output "app_asg_name" {
   description = "Name of the application tier auto scaling group"
-  value       = module.app_asg.autoscaling_group_name
+  value       = module.app_compute.autoscaling_group_name
 }
 
 # Database Outputs
 output "rds_endpoint" {
   description = "Connection endpoint for the RDS PostgreSQL database"
-  value       = module.rds.db_instance_endpoint
+  value       = module.database.rds_endpoint
 }
 
-output "rds_database_name" {
-  description = "Name of the application database"
-  value       = module.rds.db_instance_name
+output "rds_address" {
+  description = "Address of the RDS PostgreSQL database"
+  value       = module.database.rds_address
 }
 
 # Security Group Outputs
 output "web_security_group_id" {
   description = "ID of the web tier security group"
-  value       = module.web_sg.security_group_id
+  value       = module.web_security_group.security_group_id
 }
 
 output "app_security_group_id" {
   description = "ID of the application tier security group"
-  value       = module.app_sg.security_group_id
+  value       = module.app_security_group.security_group_id
 }
 
 output "db_security_group_id" {
   description = "ID of the database tier security group"
-  value       = module.db_sg.security_group_id
-}
-
-# Storage and CDN Outputs
-output "s3_bucket_name" {
-  description = "Name of the S3 bucket for application assets"
-  value       = module.s3_bucket.s3_bucket_id
-}
-
-output "cloudfront_domain_name" {
-  description = "Domain name of the CloudFront distribution"
-  value       = module.cloudfront.cloudfront_domain_name
+  value       = module.db_security_group.security_group_id
 }
 
 # Monitoring Outputs
@@ -100,12 +89,7 @@ output "sns_topic_arn" {
 # Application Access Information
 output "application_url" {
   description = "URL to access the deployed application"
-  value       = "http://${module.external_alb.lb_dns_name}"
-}
-
-output "cloudfront_url" {
-  description = "URL to access the application via CloudFront"
-  value       = "https://${module.cloudfront.cloudfront_domain_name}"
+  value       = "http://${module.external_alb.alb_dns_name}"
 }
 
 # Deployment Instructions
@@ -116,11 +100,10 @@ output "setup_instructions" {
 Enterprise AWS 3-Tier Architecture Deployment Complete!
 
 Next Steps:
-1. Access your application: http://${module.external_alb.lb_dns_name}
-2. Check CloudFront URL: https://${module.cloudfront.cloudfront_domain_name}
-3. Database endpoint: ${module.rds.db_instance_endpoint}
-4. Monitor resources in AWS Console
-5. Run 'terraform destroy' when finished to minimize costs
+1. Access your application: http://${module.external_alb.alb_dns_name}
+2. Database endpoint: ${module.database.rds_endpoint}
+3. Monitor resources in AWS Console
+4. Run 'terraform destroy' when finished to minimize costs
 
 Remember to destroy resources after testing to avoid unnecessary charges.
 EOT
