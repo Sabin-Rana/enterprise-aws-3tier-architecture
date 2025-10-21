@@ -22,7 +22,7 @@ resource "aws_lb" "main" {
 
 # Target Group for application instances
 resource "aws_lb_target_group" "main" {
-  name     = "${var.name}-tg"
+  name     = substr("${var.name}-tg", 0, 32)
   port     = var.app_port
   protocol = var.app_protocol
   vpc_id   = var.vpc_id

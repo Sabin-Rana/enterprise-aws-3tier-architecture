@@ -1,0 +1,1127 @@
+[0m[1mdata.aws_availability_zones.available: Reading...[0m[0m
+[0m[1mdata.aws_availability_zones.available: Read complete after 2s [id=us-east-1][0m
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform planned the following actions, but then encountered a problem:
+
+[1m  # module.app_compute.aws_launch_template.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_launch_template" "main" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m default_version        = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m image_id               = "ami-0023921b4fcd5382b"
+      [32m+[0m[0m instance_type          = "t2.micro"
+      [32m+[0m[0m latest_version         = (known after apply)
+      [32m+[0m[0m name                   = (known after apply)
+      [32m+[0m[0m name_prefix            = "enterprise-aws-3tier-app-"
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-app-launch-template"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-app-launch-template"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m user_data              = (sensitive value)
+      [32m+[0m[0m vpc_security_group_ids = (known after apply)
+        [90m# (1 unchanged attribute hidden)[0m[0m
+
+      [32m+[0m[0m iam_instance_profile {
+          [32m+[0m[0m name = "AmazonSSMManagedInstanceCore"
+        }
+
+      [32m+[0m[0m metadata_options (known after apply)
+
+      [32m+[0m[0m tag_specifications {
+          [32m+[0m[0m resource_type = "instance"
+          [32m+[0m[0m tags          = {
+              [32m+[0m[0m "Name" = "enterprise-aws-3tier-app-instance"
+              [32m+[0m[0m "Tier" = "app"
+            }
+        }
+    }
+
+[1m  # module.app_security_group.aws_security_group.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "main" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "Security group for app tier"
+      [32m+[0m[0m egress                 = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = (known after apply)
+      [32m+[0m[0m name                   = "enterprise-aws-3tier-production-app-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-production-app-sg"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-production-app-sg"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m vpc_id                 = (known after apply)
+    }
+
+[1m  # module.app_security_group.aws_security_group_rule.egress[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "egress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "0.0.0.0/0",
+        ]
+      [32m+[0m[0m description              = "Allow all outbound traffic"
+      [32m+[0m[0m from_port                = 0
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 0
+      [32m+[0m[0m type                     = "egress"
+    }
+
+[1m  # module.app_security_group.aws_security_group_rule.ingress[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "ingress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "10.0.0.0/16",
+        ]
+      [32m+[0m[0m description              = "Allow app traffic from web tier"
+      [32m+[0m[0m from_port                = 4000
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 4000
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.app_security_group.aws_security_group_rule.ingress[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "ingress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "10.0.0.0/16",
+        ]
+      [32m+[0m[0m description              = "Allow SSH from VPC"
+      [32m+[0m[0m from_port                = 22
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 22
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.database.aws_db_instance.postgresql[0m will be created
+[0m  [32m+[0m[0m resource "aws_db_instance" "postgresql" {
+      [32m+[0m[0m address                               = (known after apply)
+      [32m+[0m[0m allocated_storage                     = 20
+      [32m+[0m[0m apply_immediately                     = false
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m auto_minor_version_upgrade            = true
+      [32m+[0m[0m availability_zone                     = (known after apply)
+      [32m+[0m[0m backup_retention_period               = 7
+      [32m+[0m[0m backup_target                         = (known after apply)
+      [32m+[0m[0m backup_window                         = "03:00-04:00"
+      [32m+[0m[0m ca_cert_identifier                    = (known after apply)
+      [32m+[0m[0m character_set_name                    = (known after apply)
+      [32m+[0m[0m copy_tags_to_snapshot                 = false
+      [32m+[0m[0m database_insights_mode                = (known after apply)
+      [32m+[0m[0m db_name                               = "appdb"
+      [32m+[0m[0m db_subnet_group_name                  = "enterprise-aws-3tier-db-subnet-group"
+      [32m+[0m[0m dedicated_log_volume                  = false
+      [32m+[0m[0m delete_automated_backups              = true
+      [32m+[0m[0m deletion_protection                   = false
+      [32m+[0m[0m domain_fqdn                           = (known after apply)
+      [32m+[0m[0m endpoint                              = (known after apply)
+      [32m+[0m[0m engine                                = "postgres"
+      [32m+[0m[0m engine_lifecycle_support              = (known after apply)
+      [32m+[0m[0m engine_version                        = "14.9"
+      [32m+[0m[0m engine_version_actual                 = (known after apply)
+      [32m+[0m[0m hosted_zone_id                        = (known after apply)
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m identifier                            = "enterprise-aws-3tier-db"
+      [32m+[0m[0m identifier_prefix                     = (known after apply)
+      [32m+[0m[0m instance_class                        = "db.t3.micro"
+      [32m+[0m[0m iops                                  = (known after apply)
+      [32m+[0m[0m kms_key_id                            = (known after apply)
+      [32m+[0m[0m latest_restorable_time                = (known after apply)
+      [32m+[0m[0m license_model                         = (known after apply)
+      [32m+[0m[0m listener_endpoint                     = (known after apply)
+      [32m+[0m[0m maintenance_window                    = "sun:04:00-sun:05:00"
+      [32m+[0m[0m master_user_secret                    = (known after apply)
+      [32m+[0m[0m master_user_secret_kms_key_id         = (known after apply)
+      [32m+[0m[0m max_allocated_storage                 = 50
+      [32m+[0m[0m monitoring_interval                   = 60
+      [32m+[0m[0m monitoring_role_arn                   = (known after apply)
+      [32m+[0m[0m multi_az                              = true
+      [32m+[0m[0m nchar_character_set_name              = (known after apply)
+      [32m+[0m[0m network_type                          = (known after apply)
+      [32m+[0m[0m option_group_name                     = (known after apply)
+      [32m+[0m[0m parameter_group_name                  = (known after apply)
+      [32m+[0m[0m password                              = (sensitive value)
+      [32m+[0m[0m password_wo                           = (write-only attribute)
+      [32m+[0m[0m performance_insights_enabled          = true
+      [32m+[0m[0m performance_insights_kms_key_id       = (known after apply)
+      [32m+[0m[0m performance_insights_retention_period = (known after apply)
+      [32m+[0m[0m port                                  = 5432
+      [32m+[0m[0m publicly_accessible                   = false
+      [32m+[0m[0m replica_mode                          = (known after apply)
+      [32m+[0m[0m replicas                              = (known after apply)
+      [32m+[0m[0m resource_id                           = (known after apply)
+      [32m+[0m[0m skip_final_snapshot                   = true
+      [32m+[0m[0m snapshot_identifier                   = (known after apply)
+      [32m+[0m[0m status                                = (known after apply)
+      [32m+[0m[0m storage_encrypted                     = true
+      [32m+[0m[0m storage_throughput                    = (known after apply)
+      [32m+[0m[0m storage_type                          = "gp2"
+      [32m+[0m[0m tags                                  = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-rds-postgresql"
+        }
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-rds-postgresql"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m timezone                              = (known after apply)
+      [32m+[0m[0m username                              = "admin"
+      [32m+[0m[0m vpc_security_group_ids                = (known after apply)
+    }
+
+[1m  # module.database.aws_db_subnet_group.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_db_subnet_group" "main" {
+      [32m+[0m[0m arn                     = (known after apply)
+      [32m+[0m[0m description             = "Managed by Terraform"
+      [32m+[0m[0m id                      = (known after apply)
+      [32m+[0m[0m name                    = "enterprise-aws-3tier-db-subnet-group"
+      [32m+[0m[0m name_prefix             = (known after apply)
+      [32m+[0m[0m subnet_ids              = (known after apply)
+      [32m+[0m[0m supported_network_types = (known after apply)
+      [32m+[0m[0m tags                    = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-db-subnet-group"
+        }
+      [32m+[0m[0m tags_all                = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-db-subnet-group"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m vpc_id                  = (known after apply)
+    }
+
+[1m  # module.db_security_group.aws_security_group.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "main" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "Security group for database tier"
+      [32m+[0m[0m egress                 = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = (known after apply)
+      [32m+[0m[0m name                   = "enterprise-aws-3tier-production-db-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-production-db-sg"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-production-db-sg"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m vpc_id                 = (known after apply)
+    }
+
+[1m  # module.db_security_group.aws_security_group_rule.egress[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "egress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "0.0.0.0/0",
+        ]
+      [32m+[0m[0m description              = "Allow all outbound traffic"
+      [32m+[0m[0m from_port                = 0
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 0
+      [32m+[0m[0m type                     = "egress"
+    }
+
+[1m  # module.db_security_group.aws_security_group_rule.ingress[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "ingress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "10.0.3.0/24",
+          [32m+[0m[0m "10.0.4.0/24",
+        ]
+      [32m+[0m[0m description              = "Allow PostgreSQL from app tier"
+      [32m+[0m[0m from_port                = 5432
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 5432
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.monitoring.aws_cloudwatch_metric_alarm.db_high_cpu[0m will be created
+[0m  [32m+[0m[0m resource "aws_cloudwatch_metric_alarm" "db_high_cpu" {
+      [32m+[0m[0m actions_enabled                       = true
+      [32m+[0m[0m alarm_actions                         = (known after apply)
+      [32m+[0m[0m alarm_description                     = "RDS CPU utilization exceeded 75%"
+      [32m+[0m[0m alarm_name                            = "enterprise-aws-3tier-db-high-cpu"
+      [32m+[0m[0m arn                                   = (known after apply)
+      [32m+[0m[0m comparison_operator                   = "GreaterThanThreshold"
+      [32m+[0m[0m dimensions                            = {
+          [32m+[0m[0m "DBInstanceIdentifier" = "enterprise-aws-3tier-db"
+        }
+      [32m+[0m[0m evaluate_low_sample_count_percentiles = (known after apply)
+      [32m+[0m[0m evaluation_periods                    = 2
+      [32m+[0m[0m id                                    = (known after apply)
+      [32m+[0m[0m metric_name                           = "CPUUtilization"
+      [32m+[0m[0m namespace                             = "AWS/RDS"
+      [32m+[0m[0m period                                = 300
+      [32m+[0m[0m statistic                             = "Average"
+      [32m+[0m[0m tags                                  = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-db-high-cpu-alarm"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m tags_all                              = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-db-high-cpu-alarm"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m threshold                             = 75
+      [32m+[0m[0m treat_missing_data                    = "missing"
+    }
+
+[1m  # module.monitoring.aws_sns_topic.alerts[0m will be created
+[0m  [32m+[0m[0m resource "aws_sns_topic" "alerts" {
+      [32m+[0m[0m arn                         = (known after apply)
+      [32m+[0m[0m beginning_archive_time      = (known after apply)
+      [32m+[0m[0m content_based_deduplication = false
+      [32m+[0m[0m fifo_throughput_scope       = (known after apply)
+      [32m+[0m[0m fifo_topic                  = false
+      [32m+[0m[0m id                          = (known after apply)
+      [32m+[0m[0m name                        = "enterprise-aws-3tier-alerts"
+      [32m+[0m[0m name_prefix                 = (known after apply)
+      [32m+[0m[0m owner                       = (known after apply)
+      [32m+[0m[0m policy                      = (known after apply)
+      [32m+[0m[0m signature_version           = (known after apply)
+      [32m+[0m[0m tags                        = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-alerts-topic"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m tags_all                    = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-alerts-topic"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m tracing_config              = (known after apply)
+    }
+
+[1m  # module.vpc.aws_eip.nat[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_eip" "nat" {
+      [32m+[0m[0m allocation_id        = (known after apply)
+      [32m+[0m[0m arn                  = (known after apply)
+      [32m+[0m[0m association_id       = (known after apply)
+      [32m+[0m[0m carrier_ip           = (known after apply)
+      [32m+[0m[0m customer_owned_ip    = (known after apply)
+      [32m+[0m[0m domain               = "vpc"
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m instance             = (known after apply)
+      [32m+[0m[0m ipam_pool_id         = (known after apply)
+      [32m+[0m[0m network_border_group = (known after apply)
+      [32m+[0m[0m network_interface    = (known after apply)
+      [32m+[0m[0m private_dns          = (known after apply)
+      [32m+[0m[0m private_ip           = (known after apply)
+      [32m+[0m[0m ptr_record           = (known after apply)
+      [32m+[0m[0m public_dns           = (known after apply)
+      [32m+[0m[0m public_ip            = (known after apply)
+      [32m+[0m[0m public_ipv4_pool     = (known after apply)
+      [32m+[0m[0m tags                 = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-nat-eip-1"
+        }
+      [32m+[0m[0m tags_all             = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-nat-eip-1"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m vpc                  = (known after apply)
+    }
+
+[1m  # module.vpc.aws_eip.nat[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_eip" "nat" {
+      [32m+[0m[0m allocation_id        = (known after apply)
+      [32m+[0m[0m arn                  = (known after apply)
+      [32m+[0m[0m association_id       = (known after apply)
+      [32m+[0m[0m carrier_ip           = (known after apply)
+      [32m+[0m[0m customer_owned_ip    = (known after apply)
+      [32m+[0m[0m domain               = "vpc"
+      [32m+[0m[0m id                   = (known after apply)
+      [32m+[0m[0m instance             = (known after apply)
+      [32m+[0m[0m ipam_pool_id         = (known after apply)
+      [32m+[0m[0m network_border_group = (known after apply)
+      [32m+[0m[0m network_interface    = (known after apply)
+      [32m+[0m[0m private_dns          = (known after apply)
+      [32m+[0m[0m private_ip           = (known after apply)
+      [32m+[0m[0m ptr_record           = (known after apply)
+      [32m+[0m[0m public_dns           = (known after apply)
+      [32m+[0m[0m public_ip            = (known after apply)
+      [32m+[0m[0m public_ipv4_pool     = (known after apply)
+      [32m+[0m[0m tags                 = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-nat-eip-2"
+        }
+      [32m+[0m[0m tags_all             = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-nat-eip-2"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m vpc                  = (known after apply)
+    }
+
+[1m  # module.vpc.aws_internet_gateway.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_internet_gateway" "main" {
+      [32m+[0m[0m arn      = (known after apply)
+      [32m+[0m[0m id       = (known after apply)
+      [32m+[0m[0m owner_id = (known after apply)
+      [32m+[0m[0m tags     = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-igw"
+        }
+      [32m+[0m[0m tags_all = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-igw"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m vpc_id   = (known after apply)
+    }
+
+[1m  # module.vpc.aws_nat_gateway.main[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_nat_gateway" "main" {
+      [32m+[0m[0m allocation_id                      = (known after apply)
+      [32m+[0m[0m association_id                     = (known after apply)
+      [32m+[0m[0m connectivity_type                  = "public"
+      [32m+[0m[0m id                                 = (known after apply)
+      [32m+[0m[0m network_interface_id               = (known after apply)
+      [32m+[0m[0m private_ip                         = (known after apply)
+      [32m+[0m[0m public_ip                          = (known after apply)
+      [32m+[0m[0m secondary_private_ip_address_count = (known after apply)
+      [32m+[0m[0m secondary_private_ip_addresses     = (known after apply)
+      [32m+[0m[0m subnet_id                          = (known after apply)
+      [32m+[0m[0m tags                               = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-nat-gateway-1"
+        }
+      [32m+[0m[0m tags_all                           = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-nat-gateway-1"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+    }
+
+[1m  # module.vpc.aws_nat_gateway.main[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_nat_gateway" "main" {
+      [32m+[0m[0m allocation_id                      = (known after apply)
+      [32m+[0m[0m association_id                     = (known after apply)
+      [32m+[0m[0m connectivity_type                  = "public"
+      [32m+[0m[0m id                                 = (known after apply)
+      [32m+[0m[0m network_interface_id               = (known after apply)
+      [32m+[0m[0m private_ip                         = (known after apply)
+      [32m+[0m[0m public_ip                          = (known after apply)
+      [32m+[0m[0m secondary_private_ip_address_count = (known after apply)
+      [32m+[0m[0m secondary_private_ip_addresses     = (known after apply)
+      [32m+[0m[0m subnet_id                          = (known after apply)
+      [32m+[0m[0m tags                               = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-nat-gateway-2"
+        }
+      [32m+[0m[0m tags_all                           = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-nat-gateway-2"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+    }
+
+[1m  # module.vpc.aws_route.private_app_nat[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route" "private_app_nat" {
+      [32m+[0m[0m destination_cidr_block = "0.0.0.0/0"
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m instance_id            = (known after apply)
+      [32m+[0m[0m instance_owner_id      = (known after apply)
+      [32m+[0m[0m nat_gateway_id         = (known after apply)
+      [32m+[0m[0m network_interface_id   = (known after apply)
+      [32m+[0m[0m origin                 = (known after apply)
+      [32m+[0m[0m route_table_id         = (known after apply)
+      [32m+[0m[0m state                  = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route.private_app_nat[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route" "private_app_nat" {
+      [32m+[0m[0m destination_cidr_block = "0.0.0.0/0"
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m instance_id            = (known after apply)
+      [32m+[0m[0m instance_owner_id      = (known after apply)
+      [32m+[0m[0m nat_gateway_id         = (known after apply)
+      [32m+[0m[0m network_interface_id   = (known after apply)
+      [32m+[0m[0m origin                 = (known after apply)
+      [32m+[0m[0m route_table_id         = (known after apply)
+      [32m+[0m[0m state                  = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route.private_db_nat[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route" "private_db_nat" {
+      [32m+[0m[0m destination_cidr_block = "0.0.0.0/0"
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m instance_id            = (known after apply)
+      [32m+[0m[0m instance_owner_id      = (known after apply)
+      [32m+[0m[0m nat_gateway_id         = (known after apply)
+      [32m+[0m[0m network_interface_id   = (known after apply)
+      [32m+[0m[0m origin                 = (known after apply)
+      [32m+[0m[0m route_table_id         = (known after apply)
+      [32m+[0m[0m state                  = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route.private_db_nat[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route" "private_db_nat" {
+      [32m+[0m[0m destination_cidr_block = "0.0.0.0/0"
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m instance_id            = (known after apply)
+      [32m+[0m[0m instance_owner_id      = (known after apply)
+      [32m+[0m[0m nat_gateway_id         = (known after apply)
+      [32m+[0m[0m network_interface_id   = (known after apply)
+      [32m+[0m[0m origin                 = (known after apply)
+      [32m+[0m[0m route_table_id         = (known after apply)
+      [32m+[0m[0m state                  = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table.private_app[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "private_app" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m route            = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-private-app-rt-1"
+          [32m+[0m[0m "Tier" = "private-app"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-private-app-rt-1"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "private-app"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table.private_app[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "private_app" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m route            = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-private-app-rt-2"
+          [32m+[0m[0m "Tier" = "private-app"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-private-app-rt-2"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "private-app"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table.private_db[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "private_db" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m route            = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-private-db-rt-1"
+          [32m+[0m[0m "Tier" = "private-db"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-private-db-rt-1"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "private-db"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table.private_db[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "private_db" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m route            = (known after apply)
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-private-db-rt-2"
+          [32m+[0m[0m "Tier" = "private-db"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-private-db-rt-2"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "private-db"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table.public[0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table" "public" {
+      [32m+[0m[0m arn              = (known after apply)
+      [32m+[0m[0m id               = (known after apply)
+      [32m+[0m[0m owner_id         = (known after apply)
+      [32m+[0m[0m propagating_vgws = (known after apply)
+      [32m+[0m[0m route            = [
+          [32m+[0m[0m {
+              [32m+[0m[0m cidr_block                 = "0.0.0.0/0"
+              [32m+[0m[0m gateway_id                 = (known after apply)
+                [90m# (11 unchanged attributes hidden)[0m[0m
+            },
+        ]
+      [32m+[0m[0m tags             = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-public-rt"
+          [32m+[0m[0m "Tier" = "public"
+        }
+      [32m+[0m[0m tags_all         = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-public-rt"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "public"
+        }
+      [32m+[0m[0m vpc_id           = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.private_app[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "private_app" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.private_app[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "private_app" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.private_db[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "private_db" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.private_db[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "private_db" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.public[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_route_table_association.public[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_route_table_association" "public" {
+      [32m+[0m[0m id             = (known after apply)
+      [32m+[0m[0m route_table_id = (known after apply)
+      [32m+[0m[0m subnet_id      = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.private_app[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "private_app" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "us-east-1a"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.0.3.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-private-app-subnet-1"
+          [32m+[0m[0m "Tier" = "private-app"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-private-app-subnet-1"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "private-app"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.private_app[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "private_app" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "us-east-1b"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.0.4.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-private-app-subnet-2"
+          [32m+[0m[0m "Tier" = "private-app"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-private-app-subnet-2"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "private-app"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.private_db[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "private_db" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "us-east-1a"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.0.5.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-private-db-subnet-1"
+          [32m+[0m[0m "Tier" = "private-db"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-private-db-subnet-1"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "private-db"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.private_db[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "private_db" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "us-east-1b"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.0.6.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = false
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-private-db-subnet-2"
+          [32m+[0m[0m "Tier" = "private-db"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-private-db-subnet-2"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "private-db"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.public[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "us-east-1a"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.0.1.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = true
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-public-subnet-1"
+          [32m+[0m[0m "Tier" = "public"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-public-subnet-1"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "public"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_subnet.public[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_subnet" "public" {
+      [32m+[0m[0m arn                                            = (known after apply)
+      [32m+[0m[0m assign_ipv6_address_on_creation                = false
+      [32m+[0m[0m availability_zone                              = "us-east-1b"
+      [32m+[0m[0m availability_zone_id                           = (known after apply)
+      [32m+[0m[0m cidr_block                                     = "10.0.2.0/24"
+      [32m+[0m[0m enable_dns64                                   = false
+      [32m+[0m[0m enable_resource_name_dns_a_record_on_launch    = false
+      [32m+[0m[0m enable_resource_name_dns_aaaa_record_on_launch = false
+      [32m+[0m[0m id                                             = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_association_id                 = (known after apply)
+      [32m+[0m[0m ipv6_native                                    = false
+      [32m+[0m[0m map_public_ip_on_launch                        = true
+      [32m+[0m[0m owner_id                                       = (known after apply)
+      [32m+[0m[0m private_dns_hostname_type_on_launch            = (known after apply)
+      [32m+[0m[0m tags                                           = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-public-subnet-2"
+          [32m+[0m[0m "Tier" = "public"
+        }
+      [32m+[0m[0m tags_all                                       = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-public-subnet-2"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+          [32m+[0m[0m "Tier"        = "public"
+        }
+      [32m+[0m[0m vpc_id                                         = (known after apply)
+    }
+
+[1m  # module.vpc.aws_vpc.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_vpc" "main" {
+      [32m+[0m[0m arn                                  = (known after apply)
+      [32m+[0m[0m cidr_block                           = "10.0.0.0/16"
+      [32m+[0m[0m default_network_acl_id               = (known after apply)
+      [32m+[0m[0m default_route_table_id               = (known after apply)
+      [32m+[0m[0m default_security_group_id            = (known after apply)
+      [32m+[0m[0m dhcp_options_id                      = (known after apply)
+      [32m+[0m[0m enable_dns_hostnames                 = true
+      [32m+[0m[0m enable_dns_support                   = true
+      [32m+[0m[0m enable_network_address_usage_metrics = (known after apply)
+      [32m+[0m[0m id                                   = (known after apply)
+      [32m+[0m[0m instance_tenancy                     = "default"
+      [32m+[0m[0m ipv6_association_id                  = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block                      = (known after apply)
+      [32m+[0m[0m ipv6_cidr_block_network_border_group = (known after apply)
+      [32m+[0m[0m main_route_table_id                  = (known after apply)
+      [32m+[0m[0m owner_id                             = (known after apply)
+      [32m+[0m[0m tags                                 = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-vpc"
+        }
+      [32m+[0m[0m tags_all                             = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-vpc"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+    }
+
+[1m  # module.web_compute.aws_launch_template.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_launch_template" "main" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m default_version        = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m image_id               = "ami-0023921b4fcd5382b"
+      [32m+[0m[0m instance_type          = "t2.micro"
+      [32m+[0m[0m latest_version         = (known after apply)
+      [32m+[0m[0m name                   = (known after apply)
+      [32m+[0m[0m name_prefix            = "enterprise-aws-3tier-web-"
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Name" = "enterprise-aws-3tier-web-launch-template"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Component"   = "infrastructure"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-web-launch-template"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m user_data              = "IyEvYmluL2Jhc2gKeXVtIHVwZGF0ZSAteQp5dW0gaW5zdGFsbCAteSBodHRwZApzeXN0ZW1jdGwgc3RhcnQgaHR0cGQKc3lzdGVtY3RsIGVuYWJsZSBodHRwZAplY2hvICI8aDE+V2ViIFRpZXIgLSBwcm9kdWN0aW9uPC9oMT4iID4gL3Zhci93d3cvaHRtbC9pbmRleC5odG1sCmVjaG8gIjxwPkxpc3RlbmluZyBvbiBwb3J0IDQwMDA8L3A+IiA+PiAvdmFyL3d3dy9odG1sL2luZGV4Lmh0bWwK"
+      [32m+[0m[0m vpc_security_group_ids = (known after apply)
+        [90m# (1 unchanged attribute hidden)[0m[0m
+
+      [32m+[0m[0m iam_instance_profile {
+          [32m+[0m[0m name = "AmazonSSMManagedInstanceCore"
+        }
+
+      [32m+[0m[0m metadata_options (known after apply)
+
+      [32m+[0m[0m tag_specifications {
+          [32m+[0m[0m resource_type = "instance"
+          [32m+[0m[0m tags          = {
+              [32m+[0m[0m "Name" = "enterprise-aws-3tier-web-instance"
+              [32m+[0m[0m "Tier" = "web"
+            }
+        }
+    }
+
+[1m  # module.web_security_group.aws_security_group.main[0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group" "main" {
+      [32m+[0m[0m arn                    = (known after apply)
+      [32m+[0m[0m description            = "Security group for web tier"
+      [32m+[0m[0m egress                 = (known after apply)
+      [32m+[0m[0m id                     = (known after apply)
+      [32m+[0m[0m ingress                = (known after apply)
+      [32m+[0m[0m name                   = "enterprise-aws-3tier-production-web-sg"
+      [32m+[0m[0m name_prefix            = (known after apply)
+      [32m+[0m[0m owner_id               = (known after apply)
+      [32m+[0m[0m revoke_rules_on_delete = false
+      [32m+[0m[0m tags                   = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-production-web-sg"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m tags_all               = {
+          [32m+[0m[0m "Component"   = "production"
+          [32m+[0m[0m "Environment" = "production"
+          [32m+[0m[0m "ManagedBy"   = "terraform"
+          [32m+[0m[0m "Name"        = "enterprise-aws-3tier-production-web-sg"
+          [32m+[0m[0m "Owner"       = "Sabin Rana"
+          [32m+[0m[0m "Project"     = "enterprise-aws-3tier"
+        }
+      [32m+[0m[0m vpc_id                 = (known after apply)
+    }
+
+[1m  # module.web_security_group.aws_security_group_rule.egress[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "egress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "0.0.0.0/0",
+        ]
+      [32m+[0m[0m description              = "Allow all outbound traffic"
+      [32m+[0m[0m from_port                = 0
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "-1"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 0
+      [32m+[0m[0m type                     = "egress"
+    }
+
+[1m  # module.web_security_group.aws_security_group_rule.ingress[0][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "ingress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "0.0.0.0/0",
+        ]
+      [32m+[0m[0m description              = "Allow HTTP from internet"
+      [32m+[0m[0m from_port                = 80
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 80
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.web_security_group.aws_security_group_rule.ingress[1][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "ingress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "0.0.0.0/0",
+        ]
+      [32m+[0m[0m description              = "Allow HTTPS from internet"
+      [32m+[0m[0m from_port                = 443
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 443
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1m  # module.web_security_group.aws_security_group_rule.ingress[2][0m will be created
+[0m  [32m+[0m[0m resource "aws_security_group_rule" "ingress" {
+      [32m+[0m[0m cidr_blocks              = [
+          [32m+[0m[0m "10.0.0.0/16",
+        ]
+      [32m+[0m[0m description              = "Allow SSH from VPC"
+      [32m+[0m[0m from_port                = 22
+      [32m+[0m[0m id                       = (known after apply)
+      [32m+[0m[0m protocol                 = "tcp"
+      [32m+[0m[0m security_group_id        = (known after apply)
+      [32m+[0m[0m security_group_rule_id   = (known after apply)
+      [32m+[0m[0m self                     = false
+      [32m+[0m[0m source_security_group_id = (known after apply)
+      [32m+[0m[0m to_port                  = 22
+      [32m+[0m[0m type                     = "ingress"
+    }
+
+[1mPlan:[0m 45 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m app_launch_template_id = (known after apply)
+  [32m+[0m[0m app_security_group_id  = (known after apply)
+  [32m+[0m[0m db_security_group_id   = (known after apply)
+  [32m+[0m[0m private_app_subnet_ids = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+  [32m+[0m[0m private_db_subnet_ids  = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+  [32m+[0m[0m public_subnet_ids      = [
+      [32m+[0m[0m (known after apply),
+      [32m+[0m[0m (known after apply),
+    ]
+  [32m+[0m[0m rds_address            = (known after apply)
+  [32m+[0m[0m rds_endpoint           = (known after apply)
+  [32m+[0m[0m sns_topic_arn          = (known after apply)
+  [32m+[0m[0m vpc_cidr_block         = "10.0.0.0/16"
+  [32m+[0m[0m vpc_id                 = (known after apply)
+  [32m+[0m[0m web_launch_template_id = (known after apply)
+  [32m+[0m[0m web_security_group_id  = (known after apply)
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m"name" cannot be longer than 32 characters: "enterprise-aws-3tier-production-ext-alb"[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.external_alb.aws_lb.main,
+[31m│[0m [0m  on ..\..\modules\load_balancing\main.tf line 10, in resource "aws_lb" "main":
+[31m│[0m [0m  10:   name               = [4mvar.name[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m"name" cannot be longer than 32 characters: "enterprise-aws-3tier-production-int-alb"[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.internal_alb.aws_lb.main,
+[31m│[0m [0m  on ..\..\modules\load_balancing\main.tf line 10, in resource "aws_lb" "main":
+[31m│[0m [0m  10:   name               = [4mvar.name[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m"name" cannot be longer than 32 characters[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with module.internal_alb.aws_lb_target_group.main,
+[31m│[0m [0m  on ..\..\modules\load_balancing\main.tf line 25, in resource "aws_lb_target_group" "main":
+[31m│[0m [0m  25:   name     = [4m"${var.name}-tg"[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m

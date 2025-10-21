@@ -59,7 +59,7 @@ module "vpc" {
 # SECURITY GROUPS
 # ==============================================================================
 module "web_security_group" {
-  source = "../../modules/security-group"
+  source = "../../modules/security"
 
   name        = "${var.project_name}-${var.environment}-web-sg"
   description = "Security group for web tier"
@@ -103,7 +103,7 @@ module "web_security_group" {
 }
 
 module "app_security_group" {
-  source = "../../modules/security-group"
+  source = "../../modules/security"
 
   name        = "${var.project_name}-${var.environment}-app-sg"
   description = "Security group for app tier"
@@ -140,7 +140,7 @@ module "app_security_group" {
 }
 
 module "db_security_group" {
-  source = "../../modules/security-group"
+  source = "../../modules/security"
 
   name        = "${var.project_name}-${var.environment}-db-sg"
   description = "Security group for database tier"
@@ -175,7 +175,7 @@ module "db_security_group" {
 module "external_alb" {
   source = "../../modules/load_balancing"
 
-  name               = "${var.project_name}-${var.environment}-ext-alb"
+  name               = "ent-3tier-prod-ext-alb"
   internal           = false
   vpc_id             = module.vpc.vpc_id
   subnet_ids         = module.vpc.public_subnets
@@ -189,7 +189,7 @@ module "external_alb" {
 module "internal_alb" {
   source = "../../modules/load_balancing"
 
-  name               = "${var.project_name}-${var.environment}-int-alb"
+  name               = "ent-3tier-prod-int-alb"
   internal           = true
   vpc_id             = module.vpc.vpc_id
   subnet_ids         = module.vpc.private_app_subnets
@@ -209,7 +209,7 @@ module "web_compute" {
   project_name        = var.project_name
   environment         = var.environment
   tier                = "web"
-  vpc_id              = module.vpc.vpc_id
+# vpc_id = module.vpc.vpc_id  # REMOVED - not supported by module
   private_subnet_ids  = module.vpc.public_subnets
   instance_type       = var.web_instance_type
   ami_id              = var.ami_id
@@ -244,7 +244,7 @@ module "app_compute" {
   project_name        = var.project_name
   environment         = var.environment
   tier                = "app"
-  vpc_id              = module.vpc.vpc_id
+# vpc_id = module.vpc.vpc_id  # REMOVED - not supported by module
   private_subnet_ids  = module.vpc.private_app_subnets
   instance_type       = var.app_instance_type
   ami_id              = var.ami_id
@@ -290,7 +290,7 @@ module "database" {
   private_db_subnet_ids = module.vpc.private_db_subnets
   db_security_group_id  = module.db_security_group.security_group_id
   
-  tags = local.common_tags
+# tags = local.common_tags  # REMOVED - not supported by module
 }
 
 # ==============================================================================
