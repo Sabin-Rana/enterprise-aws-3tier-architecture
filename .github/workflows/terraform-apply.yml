@@ -7,13 +7,13 @@
 
 name: Terraform Apply
 
-on:
-  push:
-    paths:
-      - 'terraform/**'
-      - '.github/workflows/terraform-apply.yml'
-    branches: [ main ]
-  workflow_dispatch:
+# on:
+#   push:
+#     paths:
+#       - 'terraform/**'
+#       - '.github/workflows/terraform-apply.yml'
+#     branches: [ main ]
+workflow_dispatch:
     inputs:
       environment:
         description: 'Deployment Environment'

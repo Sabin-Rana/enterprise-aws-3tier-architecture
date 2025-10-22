@@ -27,7 +27,7 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     # Terraform security scanning with tfsec
     - name: TFSec Security Scan
@@ -55,11 +55,11 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     # Setup Node.js environment
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
@@ -94,11 +94,11 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     # Setup Node.js environment
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
@@ -131,7 +131,7 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     # Secret scanning with Gitleaks
     - name: Secret Detection
@@ -142,7 +142,7 @@ jobs:
       
     # Dependency review for security impact
     - name: Dependency Review
-      uses: actions/dependency-review-action@v3
+      uses: actions/dependency-review-action@v4
       
     # CodeQL static analysis for vulnerabilities
     - name: CodeQL Analysis
@@ -164,7 +164,7 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     # Build Docker image for security scanning
     - name: Build Docker image

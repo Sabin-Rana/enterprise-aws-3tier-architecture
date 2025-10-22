@@ -23,7 +23,7 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # Setup Terraform with pinned version
     - name: Setup Terraform
@@ -71,7 +71,7 @@ jobs:
 
     # Upload plan artifact for manual review
     - name: Upload Plan Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: terraform-plan
         path: |

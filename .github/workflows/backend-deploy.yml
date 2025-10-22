@@ -31,11 +31,11 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     # Setup Node.js environment with caching
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
@@ -62,7 +62,7 @@ jobs:
         
     # Save Docker image as deployment artifact
     - name: Save Docker image
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: backend-docker-image
         path: backend/
@@ -77,11 +77,11 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     # Setup Node.js environment
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
         
@@ -176,11 +176,11 @@ jobs:
     steps:
     # Checkout repository code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     # Setup Node.js environment
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VERSION }}
         
