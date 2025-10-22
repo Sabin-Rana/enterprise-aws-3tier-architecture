@@ -1,0 +1,9 @@
+FROM node:16-alpine as builder
+WORKDIR /app
+COPY . .
+RUN echo "=== Checking files ==="
+RUN ls -la src/components/Layout/
+RUN echo "=== Checking App.js ==="
+RUN cat src/App.js | grep -A 2 -B 2 Header
+RUN echo "=== File exists? ==="
+RUN [ -f "src/components/Layout/Header.js" ] && echo "Header.js EXISTS" || echo "Header.js MISSING"
