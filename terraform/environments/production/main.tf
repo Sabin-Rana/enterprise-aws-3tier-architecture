@@ -46,13 +46,13 @@ data "aws_availability_zones" "available" {
 module "vpc" {
   source = "../../modules/vpc"
 
-  vpc_cidr                = var.vpc_cidr
-  project_name            = var.project_name
-  environment             = var.environment
-  availability_zones      = local.azs
-  public_subnet_cidrs     = var.public_subnet_cidrs
+  vpc_cidr                 = var.vpc_cidr
+  project_name             = var.project_name
+  environment              = var.environment
+  availability_zones       = local.azs
+  public_subnet_cidrs      = var.public_subnet_cidrs
   private_app_subnet_cidrs = var.private_app_subnet_cidrs
-  private_db_subnet_cidrs = var.private_db_subnet_cidrs
+  private_db_subnet_cidrs  = var.private_db_subnet_cidrs
 }
 
 # ==============================================================================
@@ -175,28 +175,28 @@ module "db_security_group" {
 module "external_alb" {
   source = "../../modules/load_balancing"
 
-  name               = "ent-3tier-prod-ext-alb"
-  internal           = false
-  vpc_id             = module.vpc.vpc_id
-  subnet_ids         = module.vpc.public_subnets
+  name                  = "ent-3tier-prod-ext-alb"
+  internal              = false
+  vpc_id                = module.vpc.vpc_id
+  subnet_ids            = module.vpc.public_subnets
   alb_security_group_id = module.web_security_group.security_group_id
-  app_port           = var.web_port
-  health_check_path  = "/"
-  
+  app_port              = var.web_port
+  health_check_path     = "/"
+
   tags = local.common_tags
 }
 
 module "internal_alb" {
   source = "../../modules/load_balancing"
 
-  name               = "ent-3tier-prod-int-alb"
-  internal           = true
-  vpc_id             = module.vpc.vpc_id
-  subnet_ids         = module.vpc.private_app_subnets
+  name                  = "ent-3tier-prod-int-alb"
+  internal              = true
+  vpc_id                = module.vpc.vpc_id
+  subnet_ids            = module.vpc.private_app_subnets
   alb_security_group_id = module.app_security_group.security_group_id
-  app_port           = var.app_port
-  health_check_path  = "/health"
-  
+  app_port              = var.app_port
+  health_check_path     = "/health"
+
   tags = local.common_tags
 }
 
@@ -206,18 +206,18 @@ module "internal_alb" {
 module "web_compute" {
   source = "../../modules/compute"
 
-  project_name        = var.project_name
-  environment         = var.environment
-  tier                = "web"
-# vpc_id = module.vpc.vpc_id  # REMOVED - not supported by module
-  private_subnet_ids  = module.vpc.public_subnets
-  instance_type       = var.web_instance_type
-  ami_id              = var.ami_id
-  key_name            = var.key_name
-  min_size            = var.web_min_size
-  max_size            = var.web_max_size
-  desired_capacity    = var.web_desired_capacity
-  
+  project_name = var.project_name
+  environment  = var.environment
+  tier         = "web"
+  # vpc_id = module.vpc.vpc_id  # REMOVED - not supported by module
+  private_subnet_ids = module.vpc.public_subnets
+  instance_type      = var.web_instance_type
+  ami_id             = var.ami_id
+  key_name           = var.key_name
+  min_size           = var.web_min_size
+  max_size           = var.web_max_size
+  desired_capacity   = var.web_desired_capacity
+
   # Simple inline user data instead of templatefile
   user_data = base64encode(<<-EOF
               #!/bin/bash
@@ -230,8 +230,8 @@ module "web_compute" {
               EOF
   )
 
-  app_security_group_id = module.web_security_group.security_group_id
-  target_group_arns     = [module.external_alb.target_group_arn]
+  app_security_group_id     = module.web_security_group.security_group_id
+  target_group_arns         = [module.external_alb.target_group_arn]
   iam_instance_profile_name = "AmazonSSMManagedInstanceCore"
 }
 
@@ -241,18 +241,18 @@ module "web_compute" {
 module "app_compute" {
   source = "../../modules/compute"
 
-  project_name        = var.project_name
-  environment         = var.environment
-  tier                = "app"
-# vpc_id = module.vpc.vpc_id  # REMOVED - not supported by module
-  private_subnet_ids  = module.vpc.private_app_subnets
-  instance_type       = var.app_instance_type
-  ami_id              = var.ami_id
-  key_name            = var.key_name
-  min_size            = var.app_min_size
-  max_size            = var.app_max_size
-  desired_capacity    = var.app_desired_capacity
-  
+  project_name = var.project_name
+  environment  = var.environment
+  tier         = "app"
+  # vpc_id = module.vpc.vpc_id  # REMOVED - not supported by module
+  private_subnet_ids = module.vpc.private_app_subnets
+  instance_type      = var.app_instance_type
+  ami_id             = var.ami_id
+  key_name           = var.key_name
+  min_size           = var.app_min_size
+  max_size           = var.app_max_size
+  desired_capacity   = var.app_desired_capacity
+
   # Simple inline user data instead of templatefile
   user_data = base64encode(<<-EOF
               #!/bin/bash
@@ -270,8 +270,8 @@ module "app_compute" {
               EOF
   )
 
-  app_security_group_id = module.app_security_group.security_group_id
-  target_group_arns     = [module.internal_alb.target_group_arn]
+  app_security_group_id     = module.app_security_group.security_group_id
+  target_group_arns         = [module.internal_alb.target_group_arn]
   iam_instance_profile_name = "AmazonSSMManagedInstanceCore"
 }
 
@@ -289,8 +289,8 @@ module "database" {
   db_name               = var.db_name
   private_db_subnet_ids = module.vpc.private_db_subnets
   db_security_group_id  = module.db_security_group.security_group_id
-  
-# tags = local.common_tags  # REMOVED - not supported by module
+
+  # tags = local.common_tags  # REMOVED - not supported by module
 }
 
 # ==============================================================================
@@ -308,6 +308,6 @@ module "monitoring" {
   internal_alb_name = module.internal_alb.alb_name
   db_instance_id    = module.database.db_instance_identifier
   alarm_email       = var.alarm_email
-  
+
   tags = local.common_tags
 }

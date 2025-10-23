@@ -87,10 +87,10 @@ resource "aws_cloudwatch_dashboard" "main" {
             ["AWS/AutoScaling", "GroupInServiceInstances", "AutoScalingGroupName", var.web_asg_name],
             [".", ".", ".", var.app_asg_name, { label = "App Tier Instances" }]
           ]
-          view    = "singleValue"
-          region  = var.aws_region
-          title   = "Auto Scaling Group Instances"
-          period  = 300
+          view   = "singleValue"
+          region = var.aws_region
+          title  = "Auto Scaling Group Instances"
+          period = 300
         }
       }
     ]

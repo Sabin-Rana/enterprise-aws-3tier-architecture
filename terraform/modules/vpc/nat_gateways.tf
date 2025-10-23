@@ -7,7 +7,7 @@
 
 # Elastic IP addresses for NAT gateways
 resource "aws_eip" "nat" {
-  count = length(var.public_subnet_cidrs)
+  count  = length(var.public_subnet_cidrs)
   domain = "vpc"
 
   tags = merge(

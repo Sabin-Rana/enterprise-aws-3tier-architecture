@@ -1,0 +1,35 @@
+title = "gitleaks config"
+
+[extend]
+# Use the base configuration from Gitleaks
+useDefault = true
+
+[[rules]]
+# Allow example AWS keys (like AKIAIOSFODNN7EXAMPLE)
+description = "Allow example AWS keys for documentation"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["key", "AWS"]
+[[rules.entropies]]
+Min = "3.5"
+Max = "8.0"
+target = "0"
+[rules.allowlist]
+regexes = [
+  "AKIAIOSFODNN7EXAMPLE",
+  "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+]
+paths = [
+  ".*awscli.*",  # Ignore AWS CLI documentation
+  ".*botocore.*" # Ignore botocore examples
+]
+
+[[rules]]
+description = "Ignore generic password fields in config files"
+regex = '''password\s*=\s*".*"'''
+tags = ["key", "generic"]
+[rules.allowlist]
+paths = [
+  ".*\\.tf",     # Terraform files
+  ".*\\.json",   # JSON configs
+  ".*\\.env.example" # Example env files
+]

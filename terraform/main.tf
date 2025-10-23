@@ -44,7 +44,7 @@ data "aws_availability_zones" "available" {
 locals {
   # Select first 2 availability zones for multi-AZ deployment
   azs = slice(data.aws_availability_zones.available.names, 0, 2)
-  
+
   # Common tags applied to all resources for cost tracking and management
   common_tags = {
     Project     = var.project_name

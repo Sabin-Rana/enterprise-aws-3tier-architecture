@@ -8,23 +8,23 @@
 # EC2 Launch Template for application instances
 resource "aws_launch_template" "main" {
   name_prefix = "${var.project_name}-${var.tier}-"
-  
+
   # Instance Configuration
   image_id      = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
-  
+
   # Security Configuration
   vpc_security_group_ids = [var.app_security_group_id]
-  
+
   # User Data Configuration
   user_data = var.user_data
-  
+
   # IAM Configuration
   iam_instance_profile {
     name = var.iam_instance_profile_name
   }
-  
+
   # Instance Tagging
   tag_specifications {
     resource_type = "instance"

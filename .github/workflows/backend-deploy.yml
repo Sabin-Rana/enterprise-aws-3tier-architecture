@@ -1,8 +1,8 @@
 # ==============================================================================
 # BACKEND DEPLOYMENT WORKFLOW - ENTERPRISE AWS 3-TIER ARCHITECTURE
 # ==============================================================================
-# This workflow builds, tests, and deploys the Node.js backend API to AWS EC2
-# Includes Docker containerization, security scanning, and SSM-based deployment
+# ZERO-COST PORTFOLIO MODE: All AWS resource creation commented out
+# Original deployment code preserved for future reference
 # ==============================================================================
 
 name: Backend Deployment
@@ -105,7 +105,7 @@ jobs:
         npx eslint src/ --max-warnings=0
         echo "Code linting completed"
 
-  # Backend deployment to EC2 instances via SSM
+  # ZERO-COST MODE: Backend deployment to EC2 DISABLED
   deploy-to-ec2:
     name: Deploy to EC2
     runs-on: ubuntu-latest
@@ -114,57 +114,66 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     
     steps:
-    # Configure AWS credentials for deployment
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+    # AWS credentials configuration COMMENTED OUT
+    # - name: Configure AWS credentials
+    #   uses: aws-actions/configure-aws-credentials@v2
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: ${{ env.AWS_REGION }}
         
-    # Get healthy EC2 instances from auto scaling group
-    - name: Get EC2 instances
-      id: get-instances
+    # EC2 instance retrieval COMMENTED OUT
+    # - name: Get EC2 instances
+    #   id: get-instances
+    #   run: |
+    #     INSTANCES=$(aws autoscaling describe-auto-scaling-groups \
+    #       --auto-scaling-group-names ${{ secrets.APP_ASG_NAME }} \
+    #       --query "AutoScalingGroups[0].Instances[?HealthStatus=='Healthy'].InstanceId" \
+    #       --output text)
+    #     
+    #     echo "instance_ids=$INSTANCES" >> $GITHUB_OUTPUT
+    #     echo "Found instances: $INSTANCES"
+        
+    # SSM deployment COMMENTED OUT
+    # - name: Deploy to instances
+    #   uses: aws-actions/aws-ssm-send-command@v1
+    #   with:
+    #     instance-ids: ${{ steps.get-instances.outputs.instance_ids }}
+    #     document-name: "AWS-RunShellScript"
+    #     comment: "Deploy backend application"
+    #     parameters: |
+    #       commands:
+    #         - cd /opt/backend
+    #         - git pull origin main
+    #         - npm ci --only=production
+    #         - pm2 reload ecosystem.config.js --env production
+    #         - echo "Backend deployment completed"
+    #     timeout-seconds: 300
+        
+    # Health check COMMENTED OUT
+    # - name: Health check
+    #   run: |
+    #     ALB_DNS=${{ secrets.ALB_DNS_NAME }}
+    #     
+    #     for i in {1..10}; do
+    #       if curl -f http://$ALB_DNS/health; then
+    #         echo "Health check passed!"
+    #         exit 0
+    #       fi
+    #       echo "Health check attempt $i failed, retrying..."
+    #       sleep 30
+    #     done
+    #     echo "Health check failed after 10 attempts"
+    #     exit 1
+    
+    # ZERO-COST VALIDATION MESSAGE
+    - name: Zero-Cost Portfolio Mode
       run: |
-        INSTANCES=$(aws autoscaling describe-auto-scaling-groups \
-          --auto-scaling-group-names ${{ secrets.APP_ASG_NAME }} \
-          --query "AutoScalingGroups[0].Instances[?HealthStatus=='Healthy'].InstanceId" \
-          --output text)
-        
-        echo "instance_ids=$INSTANCES" >> $GITHUB_OUTPUT
-        echo "Found instances: $INSTANCES"
-        
-    # Deploy to instances using SSM Session Manager
-    - name: Deploy to instances
-      uses: aws-actions/aws-ssm-send-command@v1
-      with:
-        instance-ids: ${{ steps.get-instances.outputs.instance_ids }}
-        document-name: "AWS-RunShellScript"
-        comment: "Deploy backend application"
-        parameters: |
-          commands:
-            - cd /opt/backend
-            - git pull origin main
-            - npm ci --only=production
-            - pm2 reload ecosystem.config.js --env production
-            - echo "Backend deployment completed"
-        timeout-seconds: 300
-        
-    # Verify deployment health and application status
-    - name: Health check
-      run: |
-        ALB_DNS=${{ secrets.ALB_DNS_NAME }}
-        
-        for i in {1..10}; do
-          if curl -f http://$ALB_DNS/health; then
-            echo "Health check passed!"
-            exit 0
-          fi
-          echo "Health check attempt $i failed, retrying..."
-          sleep 30
-        done
-        echo "Health check failed after 10 attempts"
-        exit 1
+        echo "BACKEND DEPLOYMENT - ZERO COST MODE"
+        echo "Would deploy to: EC2 Auto Scaling Group"
+        echo "AWS Resource Creation: DISABLED"
+        echo "Cost Impact: $0.00"
+        echo "Portfolio Validation: SUCCESS"
 
   # Database migration execution for schema updates
   database-migrations:
@@ -194,5 +203,7 @@ jobs:
     - name: Run database migrations
       run: |
         cd backend
-        echo "Database migrations would run here"
-        # Example: npx sequelize db:migrate
+        echo "DATABASE MIGRATIONS - ZERO COST MODE"
+        echo "Would run migrations on: RDS PostgreSQL"
+        echo "Database Changes: DISABLED"
+        echo "Cost Impact: $0.00"

@@ -9,7 +9,7 @@
 locals {
   # Availability zones for multi-AZ deployment
   azs = data.aws_availability_zones.available.names
-  
+
   # Common tags applied to all production resources
   common_tags = {
     Project     = var.project_name
