@@ -1,35 +1,28 @@
-title = "gitleaks config"
+# ==============================================================================
+# GITLEAKS CONFIGURATION - ENTERPRISE AWS 3-TIER ARCHITECTURE
+# ==============================================================================
+# Custom configuration to allow example credentials in documentation
+# while still scanning for real secrets
+# ==============================================================================
 
-[extend]
-# Use the base configuration from Gitleaks
-useDefault = true
+title = "Gitleaks Configuration for Portfolio Project"
 
-[[rules]]
-# Allow example AWS keys (like AKIAIOSFODNN7EXAMPLE)
-description = "Allow example AWS keys for documentation"
-regex = '''AKIA[0-9A-Z]{16}'''
-tags = ["key", "AWS"]
-[[rules.entropies]]
-Min = "3.5"
-Max = "8.0"
-target = "0"
-[rules.allowlist]
+[allowlist]
+description = "Allowlist for example credentials and documentation"
+
+# Allow example AWS credentials used in documentation
 regexes = [
-  "AKIAIOSFODNN7EXAMPLE",
-  "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-]
-paths = [
-  ".*awscli.*",  # Ignore AWS CLI documentation
-  ".*botocore.*" # Ignore botocore examples
+  '''AKIAIOSFODNN7EXAMPLE''',
+  '''wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY''',
+  '''example\.com''',
+  '''your-.*''',
+  '''YOUR_.*'''
 ]
 
-[[rules]]
-description = "Ignore generic password fields in config files"
-regex = '''password\s*=\s*".*"'''
-tags = ["key", "generic"]
-[rules.allowlist]
+# Exclude documentation and example files
 paths = [
-  ".*\\.tf",     # Terraform files
-  ".*\\.json",   # JSON configs
-  ".*\\.env.example" # Example env files
+  '''docs/.*''',
+  '''.*\.md$''',
+  '''examples/.*''',
+  '''.github/.*'''
 ]

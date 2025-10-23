@@ -1,7 +1,10 @@
-test('basic frontend test', () => {
-  expect(true).toBe(true);
+import { render, screen } from '@testing-library/react';
+import App from './App';
+
+test('renders without crashing', () => {
+  render(<App />);
 });
 
-test('environment setup', () => {
-  expect(process.env.NODE_ENV).toBeDefined();
+test('app component exists', () => {
+  expect(App).toBeDefined();
 });

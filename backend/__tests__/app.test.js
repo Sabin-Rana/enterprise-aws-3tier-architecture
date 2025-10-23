@@ -1,15 +1,9 @@
-const request = require('supertest');
-
-describe('Backend API Tests', () => {
-  test('basic backend test', () => {
-    expect(true).toBe(true);
+describe('Basic Tests', () => {
+  test('environment is test', () => {
+    expect(process.env.NODE_ENV).toBe('test');
   });
 
-  test('environment setup', () => {
-    expect(process.env.NODE_ENV).toBeDefined();
-  });
-
-  test('math operations', () => {
-    expect(2 + 2).toBe(4);
+  test('basic math works', () => {
+    expect(1 + 1).toBe(2);
   });
 });
