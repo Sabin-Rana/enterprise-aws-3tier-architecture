@@ -1,50 +1,43 @@
+---
 # ==============================================================================
 # TERRAFORM VALIDATION WORKFLOW - ENTERPRISE AWS 3-TIER ARCHITECTURE
 # ==============================================================================
-# This workflow validates Terraform code for syntax and configuration
-# Zero-cost mode: No AWS resources created, backend disabled for safety
-# Manual trigger only for portfolio demonstration
+# ZERO-COST PORTFOLIO MODE: Only performs validation, no resource creation
 # ==============================================================================
 
 name: Terraform Validation
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 jobs:
   terraform-validation:
     name: Terraform Validate
     runs-on: ubuntu-latest
-    
+
     steps:
-    # Checkout repository code
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # Setup Terraform with pinned version
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.5.0
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0
 
-    # Initialize Terraform without backend for zero-cost validation
-    - name: Terraform Init
-      run: |
-        cd terraform/environments/production
-        terraform init -backend=false
-        echo "Terraform initialized successfully (backend disabled)"
+      - name: Terraform Init (backend disabled)
+        run: |
+          cd terraform/environments/production
+          terraform init -backend=false
+          echo "Terraform initialized successfully (backend disabled)"
 
-    # Validate Terraform syntax and configuration
-    - name: Terraform Validate
-      run: |
-        cd terraform/environments/production
-        terraform validate
-        echo "Terraform configuration validated successfully"
+      - name: Terraform Validate
+        run: |
+          cd terraform/environments/production
+          terraform validate
+          echo "Terraform configuration validated successfully"
 
-    # Success confirmation with portfolio details
-    - name: Validation Summary
-      run: |
-        echo "TERRAFORM VALIDATION COMPLETED SUCCESSFULLY"
-        echo "Validated: 57 AWS resources across 6 modules"
-        echo "Safety: Backend disabled, no resource creation"
-        echo "Cost: $0.00 (zero-cost portfolio mode)"
+      - name: Validation Summary
+        run: |
+          echo "TERRAFORM VALIDATION COMPLETED SUCCESSFULLY"
+          echo "Validated: 57 AWS resources across 6 modules"
+          echo "Mode: zero-cost validation (backend disabled)"

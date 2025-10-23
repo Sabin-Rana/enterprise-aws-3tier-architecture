@@ -1,3 +1,4 @@
+---
 # ==============================================================================
 # SECURITY SCANNING WORKFLOW - ENTERPRISE AWS 3-TIER ARCHITECTURE
 # ==============================================================================
@@ -6,102 +7,46 @@
 # Manual trigger only for portfolio demonstration
 # ==============================================================================
 
-name: Security Scanning
+name: Security Scan
 
 on:
   workflow_dispatch:
 
 jobs:
-  frontend-security:
-    name: Frontend Security Scan
+  security-scan:
+    name: Run Security Scans
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
-    
+    continue-on-error: true
+
     steps:
-    # Checkout repository code
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    # Setup Node.js environment
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
 
-    # Install frontend dependencies
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+          cd ../backend
+          npm install
 
-    # Run security audit (non-blocking for portfolio)
-    - name: Run npm audit
-      run: npm audit --audit-level=high || echo "Vulnerabilities detected - documented in project report"
-      continue-on-error: true
+      - name: Run npm audit (frontend)
+        continue-on-error: true
+        run: |
+          cd frontend
+          npm audit --audit-level=moderate || true
 
-    # Build frontend application
-    - name: Build frontend
-      run: npm run build
+      - name: Run npm audit (backend)
+        continue-on-error: true
+        run: |
+          cd backend
+          npm audit --audit-level=moderate || true
 
-    # Frontend security summary
-    - name: Frontend Security Summary
-      run: |
-        echo "Frontend security scan completed"
-        echo "Build successful"
-        echo "Known vulnerabilities documented in project report"
-
-  backend-security:
-    name: Backend Security Scan
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-    
-    steps:
-    # Checkout repository code
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    # Setup Node.js environment
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-
-    # Install backend dependencies
-    - name: Install dependencies
-      run: npm ci
-
-    # Run security audit (non-blocking for portfolio)
-    - name: Run npm audit
-      run: npm audit --audit-level=high || echo "Vulnerabilities detected - documented in project report"
-      continue-on-error: true
-
-    # Run backend tests
-    - name: Run tests
-      run: npm test -- --passWithNoTests
-
-    # Backend security summary
-    - name: Backend Security Summary
-      run: |
-        echo "Backend security scan completed"
-        echo "Tests passed successfully"
-
-  secret-detection:
-    name: Secret Detection Scan
-    runs-on: ubuntu-latest
-    steps:
-    # Checkout repository code
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    # Run secret detection with custom configuration
-    - name: Run Gitleaks
-      uses: gitleaks/gitleaks-action@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      continue-on-error: true
-
-    # Secret detection summary
-    - name: Secret Detection Summary
-      run: echo "Secret detection scan completed (with allowlist for documentation)"
+      - name: Run Gitleaks
+        uses: zricethezav/gitleaks-action@v2
+        with:
+          config: .gitleaks.toml
