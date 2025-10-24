@@ -1,3 +1,4 @@
+---
 # ==============================================================================
 # BACKEND DEPLOYMENT WORKFLOW - ENTERPRISE AWS 3-TIER ARCHITECTURE
 # ==============================================================================
@@ -12,7 +13,7 @@ on:
     paths:
       - 'backend/**'
       - '.github/workflows/backend-deploy.yml'
-    branches: [ main ]
+    branches: [main]
   pull_request:
     paths:
       - 'backend/**'
@@ -23,187 +24,70 @@ env:
   AWS_REGION: 'us-east-1'
 
 jobs:
-  # Backend application build and containerization
   build-backend:
     name: Build Backend API
     runs-on: ubuntu-latest
-    
-    steps:
-    # Checkout repository code
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    # Setup Node.js environment with caching
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        cache-dependency-path: backend/package-lock.json
-        
-    # Install backend dependencies
-    - name: Install dependencies
-      run: |
-        cd backend
-        npm ci
-        
-    # Execute backend test suite
-    - name: Run tests
-      run: |
-        cd backend
-        npm test
-        
-    # Build Docker container image
-    - name: Build Docker image
-      run: |
-        cd backend
-        docker build -t backend-api:${{ github.sha }} .
-        echo "Docker image built successfully"
-        
-    # Save Docker image as deployment artifact
-    - name: Save Docker image
-      uses: actions/upload-artifact@v4
-      with:
-        name: backend-docker-image
-        path: backend/
-        retention-days: 1
 
-  # Backend security and code quality scanning
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: true
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd backend
+          npm test
+
+      - name: Build Docker image
+        run: |
+          cd backend
+          docker build -t backend-api:${{ github.sha }} .
+          echo "Docker image built successfully"
+
+      - name: Save Docker image
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-docker-image
+          path: backend/
+          retention-days: 1
+
   security-scan:
     name: Security & Code Quality
     runs-on: ubuntu-latest
     needs: build-backend
-    
-    steps:
-    # Checkout repository code
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    # Setup Node.js environment
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        
-    # Install backend dependencies
-    - name: Install dependencies
-      run: |
-        cd backend
-        npm ci
-        
-    # Security audit for dependency vulnerabilities
-    - name: Security audit
-      run: |
-        cd backend
-        npm audit --audit-level high
-        echo "Security audit completed"
-        
-    # Code linting for quality standards
-    - name: Code linting
-      run: |
-        cd backend
-        npx eslint src/ --max-warnings=0
-        echo "Code linting completed"
 
-  # ZERO-COST MODE: Backend deployment to EC2 DISABLED
-  deploy-to-ec2:
-    name: Deploy to EC2
-    runs-on: ubuntu-latest
-    needs: [build-backend, security-scan]
-    environment: production
-    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
-    
     steps:
-    # AWS credentials configuration COMMENTED OUT
-    # - name: Configure AWS credentials
-    #   uses: aws-actions/configure-aws-credentials@v2
-    #   with:
-    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     aws-region: ${{ env.AWS_REGION }}
-        
-    # EC2 instance retrieval COMMENTED OUT
-    # - name: Get EC2 instances
-    #   id: get-instances
-    #   run: |
-    #     INSTANCES=$(aws autoscaling describe-auto-scaling-groups \
-    #       --auto-scaling-group-names ${{ secrets.APP_ASG_NAME }} \
-    #       --query "AutoScalingGroups[0].Instances[?HealthStatus=='Healthy'].InstanceId" \
-    #       --output text)
-    #     
-    #     echo "instance_ids=$INSTANCES" >> $GITHUB_OUTPUT
-    #     echo "Found instances: $INSTANCES"
-        
-    # SSM deployment COMMENTED OUT
-    # - name: Deploy to instances
-    #   uses: aws-actions/aws-ssm-send-command@v1
-    #   with:
-    #     instance-ids: ${{ steps.get-instances.outputs.instance_ids }}
-    #     document-name: "AWS-RunShellScript"
-    #     comment: "Deploy backend application"
-    #     parameters: |
-    #       commands:
-    #         - cd /opt/backend
-    #         - git pull origin main
-    #         - npm ci --only=production
-    #         - pm2 reload ecosystem.config.js --env production
-    #         - echo "Backend deployment completed"
-    #     timeout-seconds: 300
-        
-    # Health check COMMENTED OUT
-    # - name: Health check
-    #   run: |
-    #     ALB_DNS=${{ secrets.ALB_DNS_NAME }}
-    #     
-    #     for i in {1..10}; do
-    #       if curl -f http://$ALB_DNS/health; then
-    #         echo "Health check passed!"
-    #         exit 0
-    #       fi
-    #       echo "Health check attempt $i failed, retrying..."
-    #       sleep 30
-    #     done
-    #     echo "Health check failed after 10 attempts"
-    #     exit 1
-    
-    # ZERO-COST VALIDATION MESSAGE
-    - name: Zero-Cost Portfolio Mode
-      run: |
-        echo "BACKEND DEPLOYMENT - ZERO COST MODE"
-        echo "Would deploy to: EC2 Auto Scaling Group"
-        echo "AWS Resource Creation: DISABLED"
-        echo "Cost Impact: $0.00"
-        echo "Portfolio Validation: SUCCESS"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  # Database migration execution for schema updates
-  database-migrations:
-    name: Database Migrations
-    runs-on: ubuntu-latest
-    needs: build-backend
-    if: github.ref == 'refs/heads/main'
-    
-    steps:
-    # Checkout repository code
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    # Setup Node.js environment
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-        
-    # Install backend dependencies
-    - name: Install dependencies
-      run: |
-        cd backend
-        npm ci
-        
-    # Execute database migration scripts
-    - name: Run database migrations
-      run: |
-        cd backend
-        echo "DATABASE MIGRATIONS - ZERO COST MODE"
-        echo "Would run migrations on: RDS PostgreSQL"
-        echo "Database Changes: DISABLED"
-        echo "Cost Impact: $0.00"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm ci
+
+      - name: Security audit
+        run: |
+          cd backend
+          npm audit --audit-level high
+          echo "Security audit completed"
+
+      - name: Code linting
+        run: |
+          cd backend
+          npx eslint src/ --max-warnings=0
