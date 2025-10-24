@@ -1,7 +1,7 @@
 # ENTERPRISE AWS 3-TIER ARCHITECTURE - COMPLETE DOCUMENTATION
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/sabinrana/enterprise-aws-3tier-architecture)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/Sabin-Rana/enterprise-aws-3tier-architecture)
 [![Terraform](https://img.shields.io/badge/Terraform-1.0+-purple?logo=terraform)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-Cloud-orange?logo=amazon-aws)](https://aws.amazon.com/)
 
@@ -497,11 +497,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Sabin Rana**
 
-- GitHub: [@sabinrana](https://github.com/sabinrana)
-- LinkedIn: [linkedin.com/in/sabinran](https://linkedin.com/in/sabinran)
-- Project Repository: [View this project](https://github.com/sabinrana/enterprise-aws-3tier-architecture)
+- GitHub: [@sabinrana](https://github.com/sabin-rana)
+- LinkedIn: [linkedin.com/in/sabinran](https://www.linkedin.com/in/sabin-rana-377729153/)
+- Project Repository: [View this project](https://github.com/sabin-rana/enterprise-aws-3tier-architecture)
 - Blog: [Hashnode](https://sabin-codeops.hashnode.dev/)
-- Credly: [Verify certifications](https://www.credly.com/badges/080be029-2747-438f-82cc-5f403008e2fa)
+- Credly: [Verify certifications](https://www.credly.com/users/sabin-rana/badges#credly)
 
 ---
 
@@ -517,4 +517,4 @@ This comprehensive project demonstrates professional cloud engineering skills th
 
 If you find this project helpful or impressive, please consider giving it a star on GitHub. It helps others discover this resource and supports my work in creating professional cloud engineering content.
 
-[⭐ Star this project on GitHub](https://github.com/sabinrana/enterprise-aws-3tier-architecture)
+[⭐ Star this project on GitHub](https://github.com/sabin-rana/enterprise-aws-3tier-architecture)
