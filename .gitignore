@@ -38,3 +38,15 @@ logs/
 # AWS
 *.pem
 *.key
+
+# AWS CLI and Git Credential Manager downloads
+awscliv2.zip
+gcm-linux_amd64.2.6.1.deb
+
+# Terraform backup files
+*.backup
+*.tfbackup
+
+# Temporary files
+*.tmp
+*.temp
