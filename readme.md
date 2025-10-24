@@ -46,6 +46,8 @@
 
 ## Executive Summary
 
+[![AWS Certified Solutions Architect](https://img.shields.io/badge/AWS-Certified%20Solutions%20Architect%20Associate-orange?logo=amazon-aws)](https://www.credly.com/badges/080be029-2747-438f-82cc-5f403008e2fa)
+
 A comprehensive enterprise-grade cloud infrastructure project demonstrating professional DevOps practices with zero-cost validation strategy. This project designs, validates, and documents 57 AWS resources across 6 Terraform modules while maintaining absolute cost control through safety-first workflow design and comprehensive automation.
 
 ### Key Achievements
@@ -58,6 +60,37 @@ A comprehensive enterprise-grade cloud infrastructure project demonstrating prof
 - **7 Safety Scripts** for cost management and emergency protocols
 
 ---
+
+---
+
+## The Story Behind This Architecture
+
+### From $10 Scare to Zero-Cost Mastery
+
+This project represents a fundamental shift in cloud engineering mindset, born from a critical lesson in cost management that transformed my approach to infrastructure design.
+
+**[Read the Full Journey: "From $10 Scare to Zero-Cost Mastery: My AWS 3-Tier Architecture Journey"](https://sabin-codeops.hashnode.dev/from-10-scare-to-zero-cost-mastery-my-aws-3-tier-architecture-journey)**
+
+#### The Learning Foundation
+- **[Terraform Automation Journey](https://github.com/Sabin-Rana/terraform-learning-journey)** - Structured learning path with comprehensive hands-on labs
+- **[Manual AWS 3-Tier Implementation](https://github.com/Sabin-Rana/aws-3tier-architecture)** - Foundational architecture built through AWS console
+- **Enterprise Automation** - This project: 57 resources across 6 Terraform modules
+
+#### The Evolution Path
+**Manual Console Operations → Infrastructure as Code Foundation → Enterprise-Grade Automation**
+
+#### Key Insights from the Journey
+- **Financial responsibility in cloud engineering** - Treating every dollar as critical infrastructure cost
+- **Progressive skill development** - Building from manual operations to automated enterprise solutions
+- **Deep understanding before automation** - Mastering AWS services manually before implementing Infrastructure as Code
+- **Safety-first infrastructure** - 7 automation scripts for cost control and emergency protocols
+- **Comprehensive documentation** - Architecture diagrams and troubleshooting journeys that tell complete stories
+- **Real-world problem solving** - 62+ documented challenges and solutions from hands-on experience
+
+This project demonstrates that professional cloud engineering combines technical expertise with financial responsibility, creating solutions that are both powerful and cost-aware.
+
+---
+
 
 ## Complete Architecture Breakdown
 
@@ -462,11 +495,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author & Contact
 
-**Sabin Ran**
+**Sabin Rana**
 
 - GitHub: [@sabinrana](https://github.com/sabinrana)
 - LinkedIn: [linkedin.com/in/sabinran](https://linkedin.com/in/sabinran)
-- Portfolio: [View this project](https://github.com/sabinrana/enterprise-aws-3tier-architecture)
+- Project Repository: [View this project](https://github.com/sabinrana/enterprise-aws-3tier-architecture)
+- Blog: [Hashnode](https://sabin-codeops.hashnode.dev/)
+- Credly: [Verify certifications](https://www.credly.com/badges/080be029-2747-438f-82cc-5f403008e2fa)
 
 ---
 

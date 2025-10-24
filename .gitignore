@@ -49,4 +49,6 @@ gcm-linux_amd64.2.6.1.deb
 
 # Temporary files
 *.tmp
-*.temp
+*.tempawscliv2.zip
+gcm-linux_amd64.2.6.1.deb
+*.backup
