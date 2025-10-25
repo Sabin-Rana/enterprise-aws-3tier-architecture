@@ -63,91 +63,65 @@ A comprehensive enterprise-grade cloud infrastructure project demonstrating prof
 
 ### Validation Evidence
 
-<table>
-<tr>
-<td width="50%" align="center" valign="top">
+<div align="center">
 
-<div style="height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+<div style="height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
   <img src="./docs/screenshots-organized/readme-showcase/01-terraform-validate.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
 </div>
+<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #28a745;">
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;"> Terraform Configuration Validated</h4>
+  <p style="margin: 0; color: #6c757d;">Successfully validated across all 6 modules with zero syntax errors</p>
+</div>
 
-**Terraform Configuration Validated**  
-Successfully validated across all 6 modules with zero syntax errors
-
-</td>
-<td width="50%" align="center" valign="top">
-
-<div style="height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+<div style="height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
   <img src="./docs/screenshots-organized/readme-showcase/02-terraform-resources.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
 </div>
+<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #007bff;">
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;">📊 Infrastructure Planning Complete</h4>
+  <p style="margin: 0; color: #6c757d;">57 AWS resources planned and validated without deployment costs</p>
+</div>
 
-**Infrastructure Planning Complete**  
-57 AWS resources planned and validated without deployment costs
-
-</td>
-</tr>
-
-<tr>
-<td width="50%" align="center" valign="top">
-
-<div style="height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+<div style="height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
   <img src="./docs/screenshots-organized/readme-showcase/03-backend-running.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
 </div>
+<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #6f42c1;">
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;"> Backend Application Ready</h4>
+  <p style="margin: 0; color: #6c757d;">Node.js API server running with comprehensive error handling</p>
+</div>
 
-**Backend Application Ready**  
-Node.js API server running with comprehensive error handling
-
-</td>
-<td width="50%" align="center" valign="top">
-
-<div style="height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+<div style="height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
   <img src="./docs/screenshots-organized/readme-showcase/04-frontend-build.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
 </div>
+<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #e83e8c;">
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;"> Frontend Build Successful</h4>
+  <p style="margin: 0; color: #6c757d;">React application built with modern tooling and testing</p>
+</div>
 
-**Frontend Build Successful**  
-React application built with modern tooling and testing
-
-</td>
-</tr>
-
-<tr>
-<td width="50%" align="center" valign="top">
-
-<div style="height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+<div style="height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
   <img src="./docs/screenshots-organized/readme-showcase/05-docker-images.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
 </div>
+<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #20c997;">
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;">🐳 Docker Images Created</h4>
+  <p style="margin: 0; color: #6c757d;">Frontend and backend containers built and verified for production</p>
+</div>
 
-**Docker Images Created**  
-Frontend and backend containers built and verified for production
-
-</td>
-<td width="50%" align="center" valign="top">
-
-<div style="height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+<div style="height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
   <img src="./docs/screenshots-organized/readme-showcase/06-cicd-success.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
 </div>
-
-**CI/CD Pipeline Validated**  
-Safe validation workflows executing successfully with manual triggers
-
-</td>
-</tr>
-
-<tr>
-<td colspan="2" align="center" valign="top">
-
-<div style="height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-  <img src="./docs/screenshots-organized/readme-showcase/07-zero-cost-proof.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #fd7e14;">
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;"> CI/CD Pipeline Validated</h4>
+  <p style="margin: 0; color: #6c757d;">Safe validation workflows executing successfully with manual triggers</p>
 </div>
 
-**Zero-Cost Validation Confirmed**  
-Comprehensive cost audit verifying zero AWS resources and billing compliance
+<div style="height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
+  <img src="./docs/screenshots-organized/readme-showcase/07-zero-cost-proof.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+</div>
+<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #dc3545;">
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;">💰 Zero-Cost Validation Confirmed</h4>
+  <p style="margin: 0; color: #6c757d;">Comprehensive cost audit verifying zero AWS resources and billing compliance</p>
+</div>
 
-</td>
-</tr>
-</table>
-
----
+</div>
 
 ## The Story Behind This Architecture
 
