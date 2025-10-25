@@ -4,6 +4,28 @@
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/Sabin-Rana/enterprise-aws-3tier-architecture)
 [![Terraform](https://img.shields.io/badge/Terraform-1.0+-purple?logo=terraform)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-Cloud-orange?logo=amazon-aws)](https://aws.amazon.com/)
+[![Production Ready](https://img.shields.io/badge/Production-Ready-green)]()
+[![Cost Optimized](https://img.shields.io/badge/Cost-$0-blue)]()
+[![Security First](https://img.shields.io/badge/Security-First-orange)]()
+
+## Contents
+- [Project Highlights](#project-highlights)
+- [Architecture Overview](#architecture-overview)
+- [Safety Implementation](#safety-implementation)
+- [Technical Stack](#technical-stack)
+- [Business Value](#business-value)
+- [Getting Started](#getting-started)
+- [Troubleshooting](#troubleshooting-journey)
+
+## Project Metrics
+| Metric | Value |
+|--------|-------|
+| AWS Resources | 57 |
+| Terraform Modules | 6 |
+| Safety Scripts | 7 |
+| CI/CD Workflows | 5 |
+| Validation Cycles | 5+ |
+| Cost Impact | $0 |
 
 ## Architecture Diagram
 ![AWS 3-Tier Architecture](./docs/architecture-diagram/aws-3tier-architecture-diagram.png)
@@ -14,33 +36,47 @@
 
 ## Project Highlights
 
-### Terraform Validation Success
-![Terraform Validation](./docs/screenshots-organized/readme-showcase/01-terraform-validate.png)
-*Terraform configuration successfully validated across all 6 modules*
+<div align="center" style="margin: 20px 0; border: 1px solid #e1e4e8; border-radius: 6px; padding: 15px; background: #f6f8fa;">
+  <img src="./docs/screenshots-organized/readme-showcase/01-terraform-validate.png" alt="Terraform Validation" style="max-width: 100%; height: auto; border: 1px solid #d0d7de; border-radius: 4px;">
+  <br>
+  <em style="color: #656d76; font-size: 14px;">Terraform configuration successfully validated across all 6 modules</em>
+</div>
 
-### Infrastructure Planning
-![Terraform Resources](./docs/screenshots-organized/readme-showcase/02-terraform-resources.png)
-*57 AWS resources planned and validated without deployment costs*
+<div align="center" style="margin: 20px 0; border: 1px solid #e1e4e8; border-radius: 6px; padding: 15px; background: #f6f8fa;">
+  <img src="./docs/screenshots-organized/readme-showcase/02-terraform-resources.png" alt="Infrastructure Planning" style="max-width: 100%; height: auto; border: 1px solid #d0d7de; border-radius: 4px;">
+  <br>
+  <em style="color: #656d76; font-size: 14px;">57 AWS resources planned and validated without deployment costs</em>
+</div>
 
-### Backend Application
-![Backend Running](./docs/screenshots-organized/readme-showcase/03-backend-running.png)
-*Node.js API server running successfully with comprehensive error handling - gracefully manages database connection failures as expected in validation environment*
+<div align="center" style="margin: 20px 0; border: 1px solid #e1e4e8; border-radius: 6px; padding: 15px; background: #f6f8fa;">
+  <img src="./docs/screenshots-organized/readme-showcase/03-backend-running.png" alt="Backend Application" style="max-width: 100%; height: auto; border: 1px solid #d0d7de; border-radius: 4px;">
+  <br>
+  <em style="color: #656d76; font-size: 14px;">Node.js API server running successfully with comprehensive error handling</em>
+</div>
 
-### Frontend Application
-![Frontend Build](./docs/screenshots-organized/readme-showcase/04-frontend-build.png)
-*React application built successfully with modern tooling and testing*
+<div align="center" style="margin: 20px 0; border: 1px solid #e1e4e8; border-radius: 6px; padding: 15px; background: #f6f8fa;">
+  <img src="./docs/screenshots-organized/readme-showcase/04-frontend-build.png" alt="Frontend Application" style="max-width: 100%; height: auto; border: 1px solid #d0d7de; border-radius: 4px;">
+  <br>
+  <em style="color: #656d76; font-size: 14px;">React application built successfully with modern tooling and testing</em>
+</div>
 
-### Docker Containerization
-![Docker Images](./docs/screenshots-organized/readme-showcase/05-docker-images.png)
-*Both frontend and backend Docker images built and verified for production*
+<div align="center" style="margin: 20px 0; border: 1px solid #e1e4e8; border-radius: 6px; padding: 15px; background: #f6f8fa;">
+  <img src="./docs/screenshots-organized/readme-showcase/05-docker-images.png" alt="Docker Containerization" style="max-width: 100%; height: auto; border: 1px solid #d0d7de; border-radius: 4px;">
+  <br>
+  <em style="color: #656d76; font-size: 14px;">Both frontend and backend Docker images built and verified for production</em>
+</div>
 
-### CI/CD Pipeline
-![CI/CD Success](./docs/screenshots-organized/readme-showcase/06-cicd-success.png)
-*Safe validation workflows executing successfully with manual trigger safety*
+<div align="center" style="margin: 20px 0; border: 1px solid #e1e4e8; border-radius: 6px; padding: 15px; background: #f6f8fa;">
+  <img src="./docs/screenshots-organized/readme-showcase/06-cicd-success.png" alt="CI/CD Pipeline" style="max-width: 100%; height: auto; border: 1px solid #d0d7de; border-radius: 4px;">
+  <br>
+  <em style="color: #656d76; font-size: 14px;">Safe validation workflows executing successfully with manual trigger safety</em>
+</div>
 
-### Cost Management Verification
-![Zero Cost Proof](./docs/screenshots-organized/readme-showcase/07-zero-cost-proof.png)
-*Comprehensive cost validation confirming zero AWS resources and billing compliance*
+<div align="center" style="margin: 20px 0; border: 1px solid #e1e4e8; border-radius: 6px; padding: 15px; background: #f6f8fa;">
+  <img src="./docs/screenshots-organized/readme-showcase/07-zero-cost-proof.png" alt="Cost Management" style="max-width: 100%; height: auto; border: 1px solid #d0d7de; border-radius: 4px;">
+  <br>
+  <em style="color: #656d76; font-size: 14px;">Comprehensive cost validation confirming zero AWS resources and billing compliance</em>
+</div>
 
 ---
 
@@ -58,8 +94,6 @@ A comprehensive enterprise-grade cloud infrastructure project demonstrating prof
 - **Safety-First CI/CD** - 2 active workflows, 3 disabled for safety
 - **Full-Stack Applications** - Node.js + React with comprehensive testing
 - **7 Safety Scripts** for cost management and emergency protocols
-
----
 
 ---
 
@@ -91,8 +125,7 @@ This project demonstrates that professional cloud engineering combines technical
 
 ---
 
-
-## Complete Architecture Breakdown
+## Architecture Overview
 
 ### Networking Foundation (VPC Module)
 
@@ -152,7 +185,7 @@ This project demonstrates that professional cloud engineering combines technical
 
 ---
 
-## Safety-First Implementation
+## Safety Implementation
 
 ### CI/CD Pipeline Strategy
 
@@ -206,91 +239,84 @@ All validation performed through Terraform planning only - no AWS resources crea
 
 ---
 
-## Troubleshooting Journey
+## Technical Stack
 
-### Phase 1: VPC Networking Challenges
+### Infrastructure & DevOps
 
-**Problem:** Availability zone configuration errors blocked VPC creation
+- **Terraform** - Infrastructure as Code (57 resources)
+- **GitHub Actions** - CI/CD Pipeline with safety controls
+- **Docker** - Containerization for both applications
+- **AWS CLI** - Cloud management and automation
 
-![AZ Errors](./docs/screenshots-organized/troubleshooting-journey/phase1-vpc-networking/01-problem-az-errors.png)  
-*Initial availability zone conflicts preventing subnet deployment*
+### AWS Services Implemented
 
-**Solution:** Corrected AZ mappings and subnet CIDR allocations
+- **Compute:** EC2, Auto Scaling, Launch Templates
+- **Networking:** VPC, Internet Gateway, NAT Gateway, Route Tables, Subnets
+- **Database:** RDS PostgreSQL, DB Subnet Groups
+- **Load Balancing:** Application Load Balancer, Target Groups, Listeners
+- **Security:** Security Groups, IAM Roles, IAM Policies
+- **Monitoring:** CloudWatch, SNS, CloudWatch Alarms, Dashboards
+- **Storage:** EBS (via RDS), S3 (configured for frontend)
 
-![VPC Success](./docs/screenshots-organized/troubleshooting-journey/phase1-vpc-networking/03-solution-vpc-success.png)  
-*Successful VPC creation with proper multi-AZ configuration*
+### Application Stack
 
-### Phase 2: Security Emergency
+- **Backend:** Node.js, Express, JWT, PostgreSQL, Jest
+- **Frontend:** React, modern JavaScript, CSS, Testing Library
+- **Process Management:** PM2 for production process management
+- **Web Server:** nginx for frontend serving
 
-**Problem:** Security group conflicts and infinite module loops
+---
 
-![Duplicate Variables](./docs/screenshots-organized/troubleshooting-journey/phase4-infrastructure-integration/01-problem-duplicate-vars.png)
+## Business Value
 
-**Solution:** Emergency cleanup and security group optimization
+**Note:** All infrastructure validated without deployment costs using Terraform planning only
 
-![Security Complete](./docs/screenshots-organized/troubleshooting-journey/phase2-security-emergency/06-solution-security-complete.png)  
-*Security module successfully deployed with proper rules*
+**Safety:** 7 automation scripts prevent unexpected AWS charges
 
-### Phase 3: Database Configuration
+**Enterprise:** Production-grade patterns with zero financial risk
 
-**Problem:** Database module argument errors and missing variables
+This project demonstrates enterprise-level skills in:
 
-![DB Arguments](./docs/screenshots-organized/troubleshooting-journey/phase3-database-config/01-problem-db-arguments.png)  
-*RDS configuration issues and parameter mismatches*
+- **Cloud Architecture Design:** Complete 3-tier AWS infrastructure
+- **Infrastructure as Code:** 57-resource Terraform configuration
+- **DevOps & CI/CD:** Pipeline design with safety controls
+- **Cost Optimization:** Zero-cost validation methodology
+- **Problem-Solving:** Comprehensive troubleshooting documentation
+- **Security Implementation:** Network segmentation and access controls
+- **Monitoring & Observability:** CloudWatch dashboards and alerting
+- **Full-Stack Development:** React frontend and Node.js backend
+- **Containerization:** Docker implementation for both applications
+- **Documentation:** Professional-grade project documentation
 
-**Solution:** Corrected database parameters and subnet configurations
+---
 
-![Validate Success](./docs/screenshots-organized/troubleshooting-journey/phase3-database-config/03-solution-validate-success.png)  
-*Database module validated successfully*
+## Getting Started
 
-### Phase 4: Infrastructure Integration
+### Safe Validation Execution
 
-**Problem:** Module dependency issues and output mismatches
+All validation can be executed without AWS costs:
 
-![Dependencies](./docs/screenshots-organized/troubleshooting-journey/phase4-infrastructure-integration/03-problem-dependencies.png)  
-*Missing dependencies between compute and networking modules*
+```bash
+# Run comprehensive safety checks
+./scripts/pre-deploy-check.sh
 
-**Solution:** Resolved module dependencies and output configurations
+# Validate Terraform configuration
+cd terraform/environments/production
+terraform init -backend=false
+terraform validate
+terraform plan
 
-![Integration Complete](./docs/screenshots-organized/troubleshooting-journey/phase4-infrastructure-integration/06-solution-integration-complete.png)  
-*All modules integrated successfully*
+# Execute application validation
+cd backend
+npm install
+npm test
+npm start
 
-### Phase 5: Validation Fixes
-
-**Problem:** Terraform syntax errors and formatting issues
-
-![Validation Errors](./docs/screenshots-organized/troubleshooting-journey/phase5-validation-fixes/01-problem-validation-errors.png)  
-*Terraform validation failures across multiple files*
-
-**Solution:** Comprehensive formatting and syntax correction
-
-![Validate Success](./docs/screenshots-organized/troubleshooting-journey/phase5-validation-fixes/16-solution-validate-success.png)  
-*All Terraform files validated successfully*
-
-### Phase 6: Deployment Attempts
-
-**Problem:** IAM role conflicts and region configuration issues
-
-![IAM Check](./docs/screenshots-organized/troubleshooting-journey/phase6-deployment-attempts/01-problem-iam-check.png)  
-*IAM role configuration and permission errors*
-
-**Solution:** Manual role creation and region fixes
-
-![IAM Verified](./docs/screenshots-organized/troubleshooting-journey/phase6-deployment-attempts/11-solution-iam-verified.png)  
-*IAM roles created and verified successfully*
-
-### Phase 7: CI/CD Pipeline Recovery
-
-**Problem:** GitHub Actions workflow failures due to YAML syntax errors
-
-![Workflow Failures](./docs/screenshots-organized/troubleshooting-journey/phase7-cicd-journey/01-problem-workflow-failures.png)  
-*All workflows failing due to YAML syntax and indentation issues*
-
-**Solution:** Fixed YAML syntax and implemented safe validation workflows
-
-![All Green](./docs/screenshots-organized/troubleshooting-journey/phase7-cicd-journey/04-solution-all-green.png)  
-*All safe workflows passing with manual trigger safety*
-
+# Build and test frontend
+cd frontend  
+npm install
+npm run build
+npm test
 ---
 
 ## Project Structure
@@ -420,35 +446,6 @@ enterprise-aws-3tier-architecture/
 
 ---
 
-## Getting Started
-
-### Safe Validation Execution
-
-All validation can be executed without AWS costs:
-
-```bash
-# Run comprehensive safety checks
-./scripts/pre-deploy-check.sh
-
-# Validate Terraform configuration
-cd terraform/environments/production
-terraform init -backend=false
-terraform validate
-terraform plan
-
-# Execute application validation
-cd backend
-npm install
-npm test
-npm start
-
-# Build and test frontend
-cd frontend  
-npm install
-npm run build
-npm test
-```
-
 ### Cost Safety Verification
 
 ```bash
@@ -498,7 +495,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Sabin Rana**
 
 - GitHub: [@sabinrana](https://github.com/sabin-rana)
-- LinkedIn: [linkedin.com/in/sabinran](https://www.linkedin.com/in/sabin-rana-377729153/)
+- LinkedIn: [linkedin.com/in/sabinrana](https://www.linkedin.com/in/sabin-rana-377729153/)
 - Project Repository: [View this project](https://github.com/sabin-rana/enterprise-aws-3tier-architecture)
 - Blog: [Hashnode](https://sabin-codeops.hashnode.dev/)
 - Credly: [Verify certifications](https://www.credly.com/users/sabin-rana/badges#credly)
@@ -513,7 +510,7 @@ This comprehensive project demonstrates professional cloud engineering skills th
 
 ---
 
-### Star This Repository ⭐
+### Star This Repository 
 
 If you find this project helpful or impressive, please consider giving it a star on GitHub. It helps others discover this resource and supports my work in creating professional cloud engineering content.
 
