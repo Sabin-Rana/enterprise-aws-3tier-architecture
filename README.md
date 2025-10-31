@@ -77,7 +77,7 @@ A comprehensive enterprise-grade cloud infrastructure blueprint, professionally 
   <img src="./docs/screenshots-organized/readme-showcase/02-terraform-resources.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
 </div>
 <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #007bff;">
-  <h4 style="margin: 0 0 8px 0; color: #2c3e50;">📊 Infrastructure Planning Complete</h4>
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;">Infrastructure Planning Complete</h4>
   <p style="margin: 0; color: #6c757d;">57 AWS resources planned and validated without deployment costs</p>
 </div>
 
@@ -117,7 +117,7 @@ A comprehensive enterprise-grade cloud infrastructure blueprint, professionally 
   <img src="./docs/screenshots-organized/readme-showcase/07-zero-cost-proof.png" style="max-width: 100%; max-height: 100%; object-fit: contain;">
 </div>
 <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #dc3545;">
-  <h4 style="margin: 0 0 8px 0; color: #2c3e50;">💰 Zero-Cost Validation Confirmed</h4>
+  <h4 style="margin: 0 0 8px 0; color: #2c3e50;">Zero-Cost Validation Confirmed</h4>
   <p style="margin: 0; color: #6c757d;">Comprehensive cost audit verifying zero AWS resources and billing compliance</p>
 </div>
 
