@@ -49,7 +49,7 @@
 
 [![AWS Certified Solutions Architect](https://img.shields.io/badge/AWS-Certified%20Solutions%20Architect%20Associate-orange?logo=amazon-aws)](https://www.credly.com/badges/080be029-2747-438f-82cc-5f403008e2fa)
 
-A comprehensive enterprise-grade cloud infrastructure blueprint, professionally engineered and validated through a strategic zero-cost methodology. This project demonstrates a complete DevOps pipeline, with all infrastructure and application code tested and ready for secure, controlled deployment.
+A comprehensive enterprise-grade cloud infrastructure blueprint, professionally engineered and validated through a strategic zero-cost methodology. This project demonstrates a complete DevOps pipeline infrastructure, with all infrastructure and application code tested and ready for secure, controlled deployment.
 
 ### Key Achievements
 
@@ -59,7 +59,7 @@ A comprehensive enterprise-grade cloud infrastructure blueprint, professionally 
 - Safety-First CI/CD with manual trigger controls
 - Full-Stack Applications with Node.js and React
 - 7 Safety Scripts for cost management and emergency protocols
-- - Deployment-Ready State awaiting controlled `terraform apply`
+- Deployment-Ready State awaiting controlled `terraform apply`
 
 ### Validation Evidence
 
@@ -102,7 +102,7 @@ A comprehensive enterprise-grade cloud infrastructure blueprint, professionally 
 </div>
 <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 10px 0 30px 0; border-left: 4px solid #20c997;">
   <h4 style="margin: 0 0 8px 0; color: #2c3e50;">🐳 Docker Images Created</h4>
-  <p style="margin: 0; color: #6c757d;">Frontend and backend containers built and verified for production</p>
+  <p style="margin: 0; color: #6c757d;">Frontend and backend containers built and verified for enterprise deployment</p>
 </div>
 
 <div style="height: 400px; display: flex; align-items: center; justify-content: center; border: 1px solid #d0d7de; border-radius: 8px; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin: 20px 0;">
