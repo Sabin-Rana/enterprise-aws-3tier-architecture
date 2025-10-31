@@ -1,6 +1,6 @@
 # Enterprise Backend API
 
-Production-ready Node.js backend for AWS 3-Tier Architecture.
+Enterprise-grade Node.js backend for AWS 3-Tier Architecture.
 
 ## Features
 
@@ -63,5 +63,6 @@ pm2 start ecosystem.config.js
 ```
 
 ## Environment Variables
+
 
 See `.env.example` for all required environment variables.
