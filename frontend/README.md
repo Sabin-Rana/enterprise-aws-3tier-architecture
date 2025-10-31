@@ -1,6 +1,6 @@
 # Enterprise Frontend
 
-Production-ready React frontend for AWS 3-Tier Architecture.
+Enterprise-grade React frontend for AWS 3-Tier Architecture.
 
 ## Features
 
@@ -53,4 +53,5 @@ docker run -p 80:80 enterprise-frontend
 ```bash
 npm run build
 aws s3 sync build/ s3://your-bucket
+
 ```
